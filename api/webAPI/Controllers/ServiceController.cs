@@ -26,6 +26,7 @@ namespace webAPI.Controllers
         {
             try
             {
+                //Vered
                 return Ok(ServiceModel.GetServices(db));
             }
             catch (Exception ex)
