@@ -76,6 +76,12 @@ namespace webAPI.Controllers
                     };
                     db.RV_User.Add(user);
                     db.SaveChanges();
+                    if (user.typeId == 3) //APP User
+                    {
+                        db.Database.ExecuteSqlCommand($"  insert into RV_KNNCategory (email) values('{user.email}')");
+                        db.SaveChanges();
+                    }
+
                     return Ok();
                 }
                 else

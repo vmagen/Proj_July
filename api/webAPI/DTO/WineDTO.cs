@@ -20,5 +20,6 @@ namespace webAPI.DTO
         public string wineryImage;
         public string areaCategoryName;
         public List<LikesDTO> likes;
+        public double? rate;
     }
 }
