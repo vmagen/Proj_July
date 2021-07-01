@@ -51,6 +51,10 @@ namespace webAPI.Models
                         .FirstOrDefault(i => i.areaId == db.RV_Winery
                             .FirstOrDefault(r => r.wineryId == w.wineryId).areaId)
                                 .areaName,
+                rate =db.RV_WineComment
+                            .Where(i => i.wineId == w.wineId)
+                                .Select(i => i.rate)
+                                    .Average(),
                 likes = db.RV_LikesUsers
                                             .Where(i => i.entityType == 2 && i.entityId == w.wineId)
                                               .Select(dt => new LikesDTO()

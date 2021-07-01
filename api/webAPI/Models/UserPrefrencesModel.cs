@@ -163,6 +163,7 @@ namespace webAPI.Models
             Dictionary<string, double> kList = new Dictionary<string, double>();
             try
             {
+
                 var single = db.RV_KNNCategory.Single(i => i.email == email);
                 if (db.RV_KNNCategory.Count() > 9)
                 {
