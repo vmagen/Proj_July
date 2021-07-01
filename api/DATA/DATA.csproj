@@ -280,7 +280,7 @@
     </Compile>
     <Compile Include="Extention\RV_KNNCategory.cs" />
     <Compile Include="Extention\RV_User.cs" />
-    <Compile Include="Extention\RV_WineryManager.cs" />
+    <Compile Include="Extention\RV_Winery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -27,7 +27,7 @@ namespace webAPI.Models
                     entityType = 1,
                     entityId = eventID,
                     email = userEmail,
-                    Date= DateTime.Now
+                    Date = DateTime.Now
                 };
                 db.RV_LikesUsers.Add(lu);
                 db.SaveChanges();
@@ -62,7 +62,7 @@ namespace webAPI.Models
             {
                 string userEmail = db.RV_User.SingleOrDefault(i => i.email == like.userEmail).email;
                 int wineryID = like.entityId;
-                
+
                 RV_LikesUsers lu = new RV_LikesUsers()
                 {
                     entityType = 3,

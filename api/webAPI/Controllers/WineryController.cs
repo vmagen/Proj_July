@@ -9,6 +9,7 @@ using webAPI.DTO;
 using System.Data.Entity;
 using System.Web.Http.Cors;
 using webAPI.Models;
+using System.Data.Entity.Validation;
 
 namespace webAPI.Controllers
 {
@@ -16,45 +17,6 @@ namespace webAPI.Controllers
     public class WineryController : ApiController
     {
         public static ArvinoDbContext db = new ArvinoDbContext();
-
-        /// <summary>
-        /// https://localhost:44370/api/Winery/PostNewWinery
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public IHttpActionResult PostNewWinery([FromBody] RV_Winery value)
-        {
-            try
-            {
-                RV_Winery w = WineryModel.GetWineryByUser(db, value.wineryManagerEmail);
-                if (w != null)
-                {
-                    RV_Winery winery = new RV_Winery()
-                    {
-                        wineryName = value.wineryName,
-                        wineryAddress = value.wineryAddress,
-                        wineryEmail = value.wineryEmail,
-                        phone = value.phone,
-                        statusType = value.statusType,
-                        IconImgPath = value.IconImgPath,
-                        wineryManagerEmail = value.wineryManagerEmail,
-                        areaId = value.areaId
-                    };
-                    db.RV_Winery.Add(winery);
-                    db.SaveChanges();
-                    return Ok();
-                }
-                else
-                {
-                    return Content(HttpStatusCode.BadRequest, "יקב קיים במערכת");
-                }
-            }
-            catch (Exception ex)
-            {
-                return Content(HttpStatusCode.BadRequest, ex);
-            }
-        }
 
         /// <summary>
         /// https://localhost:44370/api/Winery 
@@ -138,6 +100,125 @@ namespace webAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// https://localhost:44370/api/Winery/GetWineryUser?email=asaf@gmail.com
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/Winery/GetWineryUser/")]
+        public IHttpActionResult GetWineryUser(string email)
+        {
+            try
+            {
+                if (email != null)
+                {
+                    return Ok(WineryModel.GetWineryUser(email, db));
+                }
+                else
+                {
+                    return Content(HttpStatusCode.BadRequest, "לא הוזנה כתובת מייל");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+        /// <summary>
+        /// https://localhost:44370/api/Winery/PostNewWinery
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("api/Winery/PostNewWinery")]
+        public IHttpActionResult PostNewWinery([FromBody] RV_Winery value)
+        {
+            try
+            {
+                RV_User user = db.RV_User.SingleOrDefault(u => u.email == value.wineryManagerEmail);
+                if (user != null)
+                {
+                    if (value.areaId != null & value.wineryName != null & value.wineryEmail != null & value.phone != null & value.IconImgPath != null & value.wineryAddress != null & value.areaId != null)
+                    {
+                        RV_Winery winery = new RV_Winery()
+                        {
+                            wineryName = value.wineryName,
+                            wineryAddress = value.wineryAddress,
+                            wineryEmail = value.wineryEmail,
+                            phone = value.phone,
+                            statusType = "פעיל",
+                            IconImgPath = value.IconImgPath,
+                            wineryManagerEmail = value.wineryManagerEmail,
+                            areaId = value.areaId
+                        };
+                        db.RV_Winery.Add(winery);
+                        db.SaveChanges();
+                        return Ok();
+                    }
+                    else
+                    {
+                        return Content(HttpStatusCode.BadRequest, "אחד מהפרטים שהתבקשת למלא חסר");
+                    }
+                }
+                else
+                {
+                    return Content(HttpStatusCode.BadRequest, "לא ניתן להוסיף יקב אם לא קיים מנהל יקב רשום במערכת");
+                }
+
+            }
+            catch (DbEntityValidationException ex)
+            {
+                string errors = "";
+                foreach (DbEntityValidationResult vr in ex.EntityValidationErrors)
+                {
+                    foreach (DbValidationError er in vr.ValidationErrors)
+                    {
+                        errors += $"PropertyName - {er.PropertyName }, Error {er.ErrorMessage} <br/>";
+                    }
+                }
+                return Content(HttpStatusCode.BadRequest, errors);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+        /// <summary>
+        /// https://localhost:44370/api/Winery/isEmailExists?email=...
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/Winery/isEmailExists")]
+        public IHttpActionResult isEmailExists(string email)
+        {
+            try
+            {
+                RV_Winery w = db.RV_Winery.SingleOrDefault(e => e.wineryEmail == email);
+                if (w != null)
+                {
+                    return null;
+                }
+                return Ok(1);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
             }
         }
     }

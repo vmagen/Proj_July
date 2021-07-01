@@ -9,6 +9,7 @@ namespace webAPI.DTO
     {
         public int wineryId { get; set; }
         public string wineryName { get; set; }
+        public string wineryManagerEmail { get; set; }
         public string wineryAddress { get; set; }
         public string wineryEmail { get; set; }
         public string phone { get; set; }
@@ -18,6 +19,10 @@ namespace webAPI.DTO
         public List<WineDTO> wineList { get; set; }
         public List<ServiceDTO> serviceList { get; set; }
         public List<LikesDTO> likes { get; set; }
+        public string email { get; set; }
+        public string password { get; set; }
+        public string Name { get; set; }
+        public string userphone { get; set; }
 
     }
 }

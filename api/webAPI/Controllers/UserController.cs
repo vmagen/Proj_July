@@ -49,59 +49,6 @@ namespace webAPI.Controllers
         }
 
         /// <summary>
-        /// https://localhost:44370/api/User/PostUser
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public IHttpActionResult PostUser([FromBody] RV_User value)
-        {
-            DateTime d = DateTime.Now;
-
-            try
-            {
-                RV_User u = UserModel.GetUser(value.email, db);
-                if (u == null)
-                {
-                    RV_User user = new RV_User()
-                    {
-                        email = value.email,
-                        password = value.password,
-                        Name = value.Name,
-                        phone = Convert.ToString(value.phone),
-                        registrationDate = d,
-                        picture = value.picture,
-                        isOlder = value.isOlder,
-                        typeId = value.typeId
-                    };
-                    db.RV_User.Add(user);
-                    db.SaveChanges();
-                    return Ok();
-                }
-                else
-                {
-                    return Content(HttpStatusCode.BadRequest, "משתמש קיים במערכת");
-                }
-            }
-            catch (DbEntityValidationException ex)
-            {
-                string error = "";
-                foreach (DbEntityValidationResult vr in ex.EntityValidationErrors)
-                {
-                    foreach (DbValidationError er in vr.ValidationErrors)
-                    {
-                        error += er.ErrorMessage + "\n";
-                    }
-                }
-                return Content(HttpStatusCode.BadRequest, error);
-            }
-            catch (Exception ex)
-            {
-                return Content(HttpStatusCode.BadRequest, ex);
-            }
-        }
-
-        /// <summary>
         /// https://localhost:44370/api/User/PutUser?email=asaf@gmail.com
         /// </summary>
         /// <param name="id"></param>
@@ -154,7 +101,7 @@ namespace webAPI.Controllers
                         RV_User user = db.RV_User.SingleOrDefault(i => i.email == item.Key);
                         if (user != null)
                         {
-                           friends.Add( new AppUserDTO()
+                            friends.Add(new AppUserDTO()
                             {
                                 email = user.email,
                                 Name = user.Name,
@@ -163,7 +110,7 @@ namespace webAPI.Controllers
                             });
                         }
                     }
-                    
+
                     return Content(HttpStatusCode.OK, friends);
                 }
                 else
@@ -216,6 +163,107 @@ namespace webAPI.Controllers
                     }
                 }
                 return Content(HttpStatusCode.BadRequest, error);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// https://localhost:44370/api/User/PostUser
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IHttpActionResult PostUser([FromBody] RV_User value)
+        {
+            DateTime d = DateTime.Now;
+
+            try
+            {
+                //is user exists?
+                RV_User u = UserModel.GetUser(value.email, db);
+
+                if (u == null)
+                {
+                    if (value.email != null & value.password != null & value.Name != null)
+                    {
+                        RV_User user = new RV_User()
+                        {
+                            email = value.email,
+                            password = value.password,
+                            Name = value.Name,
+                            phone = Convert.ToString(value.phone),
+                            registrationDate = d,
+                            picture = value.picture,
+                            isOlder = value.isOlder,
+                            typeId = value.typeId
+                        };
+                        db.RV_User.Add(user);
+                        db.SaveChanges();
+                        return Ok();
+                    }
+                    else
+                    {
+                        return Content(HttpStatusCode.BadRequest, "אחד מהפרטים שהתבקשת למלא חסר");
+                    }
+                }
+                else
+                {
+                    return Content(HttpStatusCode.BadRequest, "משתמש קיים במערכת");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                string errors = "";
+                foreach (DbEntityValidationResult vr in ex.EntityValidationErrors)
+                {
+                    foreach (DbValidationError er in vr.ValidationErrors)
+                    {
+                        errors += $"PropertyName - {er.PropertyName }, Error {er.ErrorMessage} <br/>";
+                    }
+                }
+                return Content(HttpStatusCode.BadRequest, errors);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+        /// <summary>
+        /// https://localhost:44370/api/User/isEmailExists?email=...
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/User/isEmailExists")]
+        public IHttpActionResult isEmailExists(string email)
+        {
+            try
+            {
+                RV_User u = db.RV_User.SingleOrDefault(e => e.email == email);
+                if (u != null)
+                {
+                    return null;
+                }
+                return Ok(1);
             }
             catch (Exception ex)
             {

@@ -36,7 +36,7 @@ namespace webAPI.Models
 
                                   }).ToList(),
                 images = db.RV_ServiceImage
-                    .Where(i => i.serviceId == s.serviceId)
+                    .Where(i => i.serviceId == s.serviceId)     
                         .Select(dt => new ServiceImageDTO()
                         {
                             imgId = dt.imgId,

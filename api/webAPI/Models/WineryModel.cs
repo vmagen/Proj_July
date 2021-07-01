@@ -73,6 +73,25 @@ namespace webAPI.Models
         {
             return db.RV_Winery.SingleOrDefault(e => e.wineryManagerEmail == wineryManagerEmail);
         }
+
+        public static WineryDTO GetWineryUser(string email, ArvinoDbContext db)
+        {
+            return db.RV_Winery.Where(x => email == x.wineryManagerEmail).Select(x => new WineryDTO()
+            {
+                wineryId = x.wineryId,
+                wineryName = x.wineryName,
+                wineryEmail = x.wineryEmail,
+                wineryAddress = x.wineryAddress,
+                phone = x.phone,
+                wineryImage = x.IconImgPath,
+                wineryAreaName = db.RV_AreaCategory.FirstOrDefault(y => y.areaId == x.areaId).areaName,
+                email = db.RV_User.FirstOrDefault(u => u.email == email).email,
+                Name = db.RV_User.FirstOrDefault(u => u.email == email).Name,
+                password = db.RV_User.FirstOrDefault(u => u.email == email).password,
+                userphone = db.RV_User.FirstOrDefault(u => u.email == email).phone
+            }).Single();
+            
+        }
     }
 
 

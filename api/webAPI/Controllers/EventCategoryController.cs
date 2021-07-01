@@ -27,6 +27,7 @@ namespace webAPI.Controllers
         {
             try
             {
+                //ruiiii
                 return Ok(EventCategoryModel.GetAllCategories(db));
             }
             catch (Exception ex)

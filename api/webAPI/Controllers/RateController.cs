@@ -35,16 +35,16 @@ namespace webAPI.Controllers
         }
 
         /// <summary>
-        /// https://localhost:44370/api/Rate/GetWineRate?Id=1
+        /// https://localhost:44370/api/Rate/GetWineTopWine?Id=1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/Rate/GetWineRate")]
-        public IHttpActionResult GetWineRate(int Id)
+        [Route("api/Rate/GetWineTopWine")]
+        public IHttpActionResult GetWineTopWine(int Id)
         {
             try
             {
-                return Ok(RateModel.GetWineRateByWinery(Id, db));
+                return Ok(RateModel.TopWine(Id, db));
             }
             catch (Exception ex)
             {
@@ -81,7 +81,6 @@ namespace webAPI.Controllers
             }
         }
 
-
         /// <summary>
         /// https://localhost:44370/api/Rate/UserAllowed?wineId=1&email=vmagen@gmail.com&days=7
         /// </summary>
@@ -99,5 +98,17 @@ namespace webAPI.Controllers
                 return Content(HttpStatusCode.BadRequest, ex);
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

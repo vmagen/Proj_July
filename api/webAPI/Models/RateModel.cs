@@ -11,28 +11,59 @@ namespace webAPI.Models
     public class RateModel
     {
 
-        public static List<RateDTO> GetWineRateByWinery(int wineryId, ArvinoDbContext db)
+        public static List<RateDTO> TopWine(int wineryId, ArvinoDbContext db)
         {
-            RV_Rate[] rate = db.RV_Rate.OrderBy(x => x.wineId).Where(x => x.RV_Wine.wineryId == wineryId).ToArray();
+            RV_Rate[] rate = db.RV_Rate.Where(x => x.RV_Wine.wineryId == wineryId).ToArray();
+
+            List<RateDTO> list = db.RV_Rate
+                    .Include(x => x.RV_Wine)
+                        .Where(x => x.RV_Wine.wineryId == wineryId)
+                        .OrderByDescending(x => x.score)
+                        .Select(w => new RateDTO()
+                        {
+                            rateId = w.rateId,
+                            rateDate = w.rateDate,
+                            score = w.score,
+                            wineId = w.wineId,
+                            ratedByUserEmail = w.ratedByUserEmail,
+                            userName = db.RV_User.FirstOrDefault(e => e.email == w.ratedByUserEmail).Name,
+                            UserPitcure = db.RV_User.FirstOrDefault(e => e.email == w.ratedByUserEmail).picture,
+                            winePitcure = db.RV_Wine.FirstOrDefault(e => e.wineId == w.wineId).wineImgPath,
+                            wineName = db.RV_Wine.FirstOrDefault(e => e.wineId == w.wineId).wineName
+                        }).ToList();
+
             List<RateDTO> rates = new List<RateDTO> { };
             int score = 0;
+            bool isMoreThenOne = false;
+            int counter = 1;
             for (int i = 0; i < rate.Length; i++)
             {
-                for (int j = 0; j < rate.Length; j++)
+                for (int j = i + 1; j < rate.Length; j++)
                 {
                     if (rate[i].wineId == rate[j].wineId)
                     {
                         score += rate[j].score;
+                        counter++;
+                        isMoreThenOne = true;
                     }
-                    else
+                }
+                if (isMoreThenOne)
+                {
+                    rate[i].score = score / counter;
+                    counter = 1;
+                    rate = rate.Where((key, index) => index != rate[i].wineId).ToArray();
+                    isMoreThenOne = false;
+                }
+            }
+            rate.OrderByDescending(x => x.score);
+            for (int i = 0; i < rate.Length; i++)
+            {
+                foreach (RateDTO item in list)
+                {
+                    if (item.wineId == rate[i].wineId)
                     {
-                        RateDTO r = new RateDTO
-                        {
-                            wineId = rate[i].wineId,
-                            score = (score / i + 1)
-                        };
-                        rates.Add(r);
-                        continue;
+                        rates.Add(item);
+                        break;
                     }
                 }
             }
