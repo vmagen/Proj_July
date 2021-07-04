@@ -15,13 +15,6 @@ namespace webAPI.Models
             return db.RV_WineCategory.SingleOrDefault(x => x.categoryId == id);
         }
 
-        public static List<WineCategoryDTO> GetAllCategories(ArvinoDbContext db)
-        {
-            return db.RV_WineCategory.Select(a => new WineCategoryDTO()
-            {
-                categoryId = a.categoryId,
-                categoryName = a.categoryName
-            }).ToList();
-        }
+        
     }
 }

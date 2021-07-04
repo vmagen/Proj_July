@@ -186,8 +186,6 @@
     <Compile Include="Controllers\UploadPictureController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserPrefrenceController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Controllers\WineCategoryController.cs" />
     <Compile Include="Controllers\WineCommentController.cs" />
     <Compile Include="Controllers\WineController.cs" />
     <Compile Include="Controllers\WineryCommentController.cs" />

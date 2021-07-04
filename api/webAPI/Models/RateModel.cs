@@ -11,57 +11,70 @@ namespace webAPI.Models
     public class RateModel
     {
 
-        public static List<RateDTO> TopWine(int wineryId, ArvinoDbContext db)
+        public static List<RateDTO> TopWine(int wineryId, int type, ArvinoDbContext db)
         {
-            RV_Rate[] rate = db.RV_Rate.Where(x => x.RV_Wine.wineryId == wineryId).ToArray();
+            RV_Rate[] rate = db.RV_Rate.Where(x => x.RV_Wine.wineryId == wineryId).OrderBy(x => x.wineId).ToArray();
 
             List<RateDTO> list = db.RV_Rate
                     .Include(x => x.RV_Wine)
                         .Where(x => x.RV_Wine.wineryId == wineryId)
-                        .OrderByDescending(x => x.score)
+                        .OrderBy(x => x.wineId)
                         .Select(w => new RateDTO()
                         {
                             rateId = w.rateId,
                             rateDate = w.rateDate,
                             score = w.score,
                             wineId = w.wineId,
-                            ratedByUserEmail = w.ratedByUserEmail,
-                            userName = db.RV_User.FirstOrDefault(e => e.email == w.ratedByUserEmail).Name,
-                            UserPitcure = db.RV_User.FirstOrDefault(e => e.email == w.ratedByUserEmail).picture,
                             winePitcure = db.RV_Wine.FirstOrDefault(e => e.wineId == w.wineId).wineImgPath,
                             wineName = db.RV_Wine.FirstOrDefault(e => e.wineId == w.wineId).wineName
                         }).ToList();
 
+
             List<RateDTO> rates = new List<RateDTO> { };
-            int score = 0;
-            bool isMoreThenOne = false;
             int counter = 1;
+
+
             for (int i = 0; i < rate.Length; i++)
             {
+                if (rate[i].wineId == 0)
+                {
+                    continue;
+                }
+
                 for (int j = i + 1; j < rate.Length; j++)
                 {
                     if (rate[i].wineId == rate[j].wineId)
                     {
-                        score += rate[j].score;
+                        rate[i].score += rate[j].score;
                         counter++;
-                        isMoreThenOne = true;
+                        rate[j].wineId = 0;
                     }
+                    else
+                    {
+                        rate[i].score /= counter;
+                        break;
+                    }
+
                 }
-                if (isMoreThenOne)
-                {
-                    rate[i].score = score / counter;
-                    counter = 1;
-                    rate = rate.Where((key, index) => index != rate[i].wineId).ToArray();
-                    isMoreThenOne = false;
-                }
+                counter = 1;
             }
-            rate.OrderByDescending(x => x.score);
+            rate = rate.Where(x => x.wineId != 0).ToArray();
+
+            rate.OrderBy(x => x.score).ToArray();
+            list.OrderBy(x => x.score).ToList();
+
             for (int i = 0; i < rate.Length; i++)
             {
+                if (type == 1 && i == 3)
+                {
+                    break;
+                }
                 foreach (RateDTO item in list)
                 {
+                   
                     if (item.wineId == rate[i].wineId)
                     {
+                        item.score = rate[i].score;
                         rates.Add(item);
                         break;
                     }
@@ -69,6 +82,29 @@ namespace webAPI.Models
             }
             return rates;
         }
+
+        public static List<RateDTO> GetUserRate(int id, ArvinoDbContext db)
+        {
+            try
+            {
+                return db.RV_Rate
+                    .Include(x => x.RV_Wine)
+                        .Where(x => x.RV_Wine.wineId == id)
+                        .Select(w => new RateDTO()
+                        {
+                            rateId = w.rateId,
+                            rateDate = w.rateDate,
+                            ratedByUserEmail = w.ratedByUserEmail,
+                            userName = db.RV_User.FirstOrDefault(e => e.email == w.ratedByUserEmail).Name,
+                            UserPitcure = db.RV_User.FirstOrDefault(e => e.email == w.ratedByUserEmail).picture,
+                        }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
         public static List<RateDTO> GetWineryInfoRates(int wineryId, ArvinoDbContext db)
         {

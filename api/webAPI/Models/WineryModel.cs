@@ -83,12 +83,14 @@ namespace webAPI.Models
                 wineryEmail = x.wineryEmail,
                 wineryAddress = x.wineryAddress,
                 phone = x.phone,
+                statusType= x.statusType,
                 wineryImage = x.IconImgPath,
                 wineryAreaName = db.RV_AreaCategory.FirstOrDefault(y => y.areaId == x.areaId).areaName,
                 email = db.RV_User.FirstOrDefault(u => u.email == email).email,
                 Name = db.RV_User.FirstOrDefault(u => u.email == email).Name,
                 password = db.RV_User.FirstOrDefault(u => u.email == email).password,
-                userphone = db.RV_User.FirstOrDefault(u => u.email == email).phone
+                userphone = db.RV_User.FirstOrDefault(u => u.email == email).phone,
+                picture = db.RV_User.FirstOrDefault(u => u.email == email).picture
             }).Single();
             
         }

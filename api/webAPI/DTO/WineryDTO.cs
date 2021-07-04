@@ -23,6 +23,8 @@ namespace webAPI.DTO
         public string password { get; set; }
         public string Name { get; set; }
         public string userphone { get; set; }
+        public string statusType { get; set; }
+        public string picture { get; set; }
 
     }
 }

@@ -67,23 +67,6 @@ namespace webAPI.Models
             }).ToList();
         }
 
-        public static List<WineDTO> GetAllWineInWinery(int wineryId, ArvinoDbContext db)
-        {
-            return db.RV_Wine.Where(i => i.wineryId == wineryId).Select(w => new WineDTO()
-            {
-                wineId = w.wineId,
-                wineName = w.wineName,
-                wineImgPath = w.wineImgPath,
-                content = w.content,
-                price = w.price,
-                wineLabelPath = w.wineLabelPath,
-                categoryId = w.categoryId ?? 0,
-                wineryId = w.wineryId
-
-
-            }).ToList();
-        }
-
         public static List<WineCommentDTO> GetAllWineComments(int wineId, ArvinoDbContext db)
         {
             try
@@ -153,6 +136,47 @@ namespace webAPI.Models
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+
+
+
+
+
+
+        public static List<WineDTO> GetWineryWines(int id, ArvinoDbContext db)
+        {
+            return db.RV_Wine.Where(i => i.wineryId == id).Select(w => new WineDTO()
+            {
+                wineId = w.wineId,
+                wineName = w.wineName,
+                wineImgPath = w.wineImgPath,
+                content = w.content,
+                price = w.price,
+                categoryId = w.categoryId ?? 0,
+                wineryId = w.wineryId,
+                categoryName = db.RV_WineCategory.FirstOrDefault(i => i.categoryId == w.categoryId).categoryName,
+            }).ToList();
+        }
+
+        public static List<RV_WineCategory> GetCategory(ArvinoDbContext db)
+        {
+            return db.RV_WineCategory.ToList();
+        }
+
+        public static List<WineDTO> sortCategory(int id, int wineryId, ArvinoDbContext db)
+        {
+            return db.RV_Wine.Where(c => c.categoryId == id && c.wineryId == wineryId).Select(w => new WineDTO()
+            {
+                wineId = w.wineId,
+                wineName = w.wineName,
+                wineImgPath = w.wineImgPath,
+                content = w.content,
+                price = w.price,
+                categoryId = w.categoryId ?? 0,
+                wineryId = w.wineryId,
+                categoryName = db.RV_WineCategory.FirstOrDefault(i => i.categoryId == w.categoryId).categoryName,
+            }).ToList();
         }
     }
 }

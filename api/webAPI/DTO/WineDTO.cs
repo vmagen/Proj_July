@@ -21,5 +21,8 @@ namespace webAPI.DTO
         public string areaCategoryName;
         public List<LikesDTO> likes;
         public double? rate;
+        public string categoryName;
+
+        
     }
 }

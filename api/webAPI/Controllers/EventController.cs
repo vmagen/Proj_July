@@ -143,5 +143,37 @@ namespace webAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// https://localhost:44370/api/Event/GetEventByDate?id=1&type=1
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IHttpActionResult GetEventByDate(int id, int type)
+        {
+            try
+            {
+                List<EventDTO> e = EventModel.GetEventByDate(id, type, db);
+                if (e == null)
+                {
+                    return null;
+                }
+                return Ok(e);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
     }
 }

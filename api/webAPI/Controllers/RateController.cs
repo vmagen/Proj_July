@@ -35,24 +35,6 @@ namespace webAPI.Controllers
         }
 
         /// <summary>
-        /// https://localhost:44370/api/Rate/GetWineTopWine?Id=1
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("api/Rate/GetWineTopWine")]
-        public IHttpActionResult GetWineTopWine(int Id)
-        {
-            try
-            {
-                return Ok(RateModel.TopWine(Id, db));
-            }
-            catch (Exception ex)
-            {
-                return Content(HttpStatusCode.BadRequest, ex);
-            }
-        }
-
-        /// <summary>
         /// https://localhost:44370/api/Rate/PostComment
         /// </summary>
         /// <param name="value"></param>
@@ -106,6 +88,43 @@ namespace webAPI.Controllers
 
 
 
+
+
+        /// <summary>
+        /// https://localhost:44370/api/Rate/GetTopWine?Id=1
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/Rate/GetTopWine")]
+        public IHttpActionResult GetWineTopWine(int Id, int type)
+        {
+            try
+            {
+                return Ok(RateModel.TopWine(Id, type, db));
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+        /// <summary>
+        /// https://localhost:44370/api/Rate/GetUserRate?Id=1
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/Rate/GetUserRate")]
+        public IHttpActionResult GetUserRate(int Id)
+        {
+            try
+            {
+                return Ok(RateModel.GetUserRate(Id, db));
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
 
 
 
