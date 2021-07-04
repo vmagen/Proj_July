@@ -176,6 +176,30 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ArvinoModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="EF\Email.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\event.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Event1.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\File.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\File_in_Email.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Folder.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Group.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Questionere1.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\RV_Answers.cs">
       <DependentUpon>ArvinoModel.tt</DependentUpon>
     </Compile>
@@ -276,6 +300,30 @@
       <DependentUpon>ArvinoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\RV_WineryManager.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\ShareCours.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Student.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sysdiagram.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Test.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\ToDo.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\user.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Wine.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Winery.cs">
       <DependentUpon>ArvinoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Extention\RV_KNNCategory.cs" />

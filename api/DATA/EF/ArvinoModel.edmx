@@ -5,6 +5,87 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ArvinoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="Adress" />
+          </Key>
+          <Property Name="Adress" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Date_Of_Share" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="event">
+          <Key>
+            <PropertyRef Name="event_id" />
+          </Key>
+          <Property Name="event_start" Type="datetime" Nullable="false" />
+          <Property Name="event_end" Type="datetime" Nullable="false" />
+          <Property Name="event_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserNameEmail" Type="varchar" MaxLength="50" />
+          <Property Name="day" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Price" Type="decimal" Precision="3" Scale="0" />
+          <Property Name="TicketsLeft" Type="int" />
+          <Property Name="Location" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="File_in_Email">
+          <Key>
+            <PropertyRef Name="Seq_number" />
+            <PropertyRef Name="File_num" />
+            <PropertyRef Name="Adress" />
+          </Key>
+          <Property Name="Seq_number" Type="int" Nullable="false" />
+          <Property Name="File_num" Type="int" Nullable="false" />
+          <Property Name="Adress" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Files">
+          <Key>
+            <PropertyRef Name="File_num" />
+          </Key>
+          <Property Name="File_num" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Folder_Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="HTML" Type="ntext" />
+          <Property Name="UserNameEmail" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Folders">
+          <Key>
+            <PropertyRef Name="FolderId" />
+          </Key>
+          <Property Name="Folder_Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="FolderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserNameEmail" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar(max)" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="picture" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Questionere1">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Question" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ans1" Type="nvarchar(max)" />
+          <Property Name="ans2" Type="nvarchar(max)" />
+          <Property Name="ans3" Type="nvarchar(max)" />
+          <Property Name="ans4" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="RV_Answers">
           <Key>
             <PropertyRef Name="email" />
@@ -229,6 +310,8 @@
           <Property Name="phone" Type="nchar" MaxLength="10" />
           <Property Name="registrationDate" Type="datetime" />
           <Property Name="isOlder" Type="bit" />
+          <Property Name="token" Type="nvarchar(max)" />
+          <Property Name="isPremium" Type="bit" />
         </EntityType>
         <EntityType Name="RV_UserJoinChatRoom">
           <Key>
@@ -345,6 +428,84 @@
           <Property Name="lastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="phone" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="registrationDate" Type="date" />
+        </EntityType>
+        <EntityType Name="ShareCourses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShareTo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ShareFromUserName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="HTML" Type="ntext" />
+          <Property Name="CourseName" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="UserNameEmail" />
+          </Key>
+          <Property Name="Last_Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="First_Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserNameEmail" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ProfilePic" Type="ntext" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tests">
+          <Key>
+            <PropertyRef Name="event_id" />
+          </Key>
+          <Property Name="event_start" Type="datetime" Nullable="false" />
+          <Property Name="event_end" Type="datetime" Nullable="false" />
+          <Property Name="event_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserNameEmail" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ToDo">
+          <Key>
+            <PropertyRef Name="ToDoID" />
+          </Key>
+          <Property Name="ToDoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dt" Type="datetime" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="UserNameEmail" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" />
+          <Property Name="isOlder" Type="bit" />
+          <Property Name="picture" Type="nvarchar(max)" />
+          <Property Name="password" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Wineries">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WineryName" Type="nvarchar(max)" />
+          <Property Name="WineryImage" Type="nvarchar(max)" />
+          <Property Name="CatgeoryID" Type="int" />
+        </EntityType>
+        <EntityType Name="Wines">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WineName" Type="nvarchar(max)" />
+          <Property Name="WineImg" Type="nvarchar(max)" />
+          <Property Name="CategoryID" Type="int" />
         </EntityType>
         <Association Name="FK__RV_Answer__quest__02C769E9">
           <End Role="RV_Question" Type="Self.RV_Question" Multiplicity="1" />
@@ -492,30 +653,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__RV_WineCo__email__2F650636">
-          <End Role="RV_User" Type="Self.RV_User" Multiplicity="1" />
-          <End Role="RV_WineComment" Type="Self.RV_WineComment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RV_User">
-              <PropertyRef Name="email" />
-            </Principal>
-            <Dependent Role="RV_WineComment">
-              <PropertyRef Name="email" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__RV_WineCo__wineI__30592A6F">
-          <End Role="RV_Wine" Type="Self.RV_Wine" Multiplicity="1" />
-          <End Role="RV_WineComment" Type="Self.RV_WineComment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RV_Wine">
-              <PropertyRef Name="wineId" />
-            </Principal>
-            <Dependent Role="RV_WineComment">
-              <PropertyRef Name="wineId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_RV_GroupMessages_RV_Group">
           <End Role="RV_Group" Type="Self.RV_Group" Multiplicity="1" />
           <End Role="RV_GroupMessages" Type="Self.RV_GroupMessages" Multiplicity="*" />
@@ -648,6 +785,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RV_WineComment_RV_User">
+          <End Role="RV_User" Type="Self.RV_User" Multiplicity="1" />
+          <End Role="RV_WineComment" Type="Self.RV_WineComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RV_User">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="RV_WineComment">
+              <PropertyRef Name="email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RV_WineComment_RV_Wine">
+          <End Role="RV_Wine" Type="Self.RV_Wine" Multiplicity="1" />
+          <End Role="RV_WineComment" Type="Self.RV_WineComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RV_Wine">
+              <PropertyRef Name="wineId" />
+            </Principal>
+            <Dependent Role="RV_WineComment">
+              <PropertyRef Name="wineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RV_Winery_RV_AreaCategory">
           <End Role="RV_AreaCategory" Type="Self.RV_AreaCategory" Multiplicity="0..1" />
           <End Role="RV_Winery" Type="Self.RV_Winery" Multiplicity="*" />
@@ -684,18 +845,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RV_WineryCommand_RV_WineComment">
-          <End Role="RV_WineComment" Type="Self.RV_WineComment" Multiplicity="1" />
-          <End Role="RV_WineryCommand" Type="Self.RV_WineryCommand" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RV_WineComment">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="RV_WineryCommand">
-              <PropertyRef Name="commendOn" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_RV_WineryCommand_RV_Winery">
           <End Role="RV_Winery" Type="Self.RV_Winery" Multiplicity="1" />
           <End Role="RV_WineryCommand" Type="Self.RV_WineryCommand" Multiplicity="*" />
@@ -709,6 +858,13 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ArvinoModelStoreContainer">
+          <EntitySet Name="Email" EntityType="Self.Email" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="event" EntityType="Self.event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Folders" EntityType="Self.Folders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Questionere1" EntityType="Self.Questionere1" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RV_Answers" EntityType="Self.RV_Answers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RV_AreaCategory" EntityType="Self.RV_AreaCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RV_ChatRoom" EntityType="Self.RV_ChatRoom" Schema="dbo" store:Type="Tables" />
@@ -743,6 +899,21 @@
           <EntitySet Name="RV_WineryCommand" EntityType="Self.RV_WineryCommand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RV_WineryImage" EntityType="Self.RV_WineryImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RV_WineryManager" EntityType="Self.RV_WineryManager" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShareCourses" EntityType="Self.ShareCourses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tests" EntityType="Self.Tests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ToDo" EntityType="Self.ToDo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wineries" EntityType="Self.Wineries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wines" EntityType="Self.Wines" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="File_in_Email" EntityType="Self.File_in_Email" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [File_in_Email].[Seq_number] AS [Seq_number], 
+    [File_in_Email].[File_num] AS [File_num], 
+    [File_in_Email].[Adress] AS [Adress]
+    FROM [dbo].[File_in_Email] AS [File_in_Email]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__RV_Answer__quest__02C769E9" Association="Self.FK__RV_Answer__quest__02C769E9">
             <End Role="RV_Question" EntitySet="RV_Question" />
             <End Role="RV_Answers" EntitySet="RV_Answers" />
@@ -791,14 +962,6 @@
             <End Role="RV_WineCategory" EntitySet="RV_WineCategory" />
             <End Role="RV_Wine" EntitySet="RV_Wine" />
           </AssociationSet>
-          <AssociationSet Name="FK__RV_WineCo__email__2F650636" Association="Self.FK__RV_WineCo__email__2F650636">
-            <End Role="RV_User" EntitySet="RV_User" />
-            <End Role="RV_WineComment" EntitySet="RV_WineComment" />
-          </AssociationSet>
-          <AssociationSet Name="FK__RV_WineCo__wineI__30592A6F" Association="Self.FK__RV_WineCo__wineI__30592A6F">
-            <End Role="RV_Wine" EntitySet="RV_Wine" />
-            <End Role="RV_WineComment" EntitySet="RV_WineComment" />
-          </AssociationSet>
           <AssociationSet Name="FK_RV_GroupMessages_RV_Group" Association="Self.FK_RV_GroupMessages_RV_Group">
             <End Role="RV_Group" EntitySet="RV_Group" />
             <End Role="RV_GroupMessages" EntitySet="RV_GroupMessages" />
@@ -843,6 +1006,14 @@
             <End Role="RV_Winery" EntitySet="RV_Winery" />
             <End Role="RV_Wine" EntitySet="RV_Wine" />
           </AssociationSet>
+          <AssociationSet Name="FK_RV_WineComment_RV_User" Association="Self.FK_RV_WineComment_RV_User">
+            <End Role="RV_User" EntitySet="RV_User" />
+            <End Role="RV_WineComment" EntitySet="RV_WineComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RV_WineComment_RV_Wine" Association="Self.FK_RV_WineComment_RV_Wine">
+            <End Role="RV_Wine" EntitySet="RV_Wine" />
+            <End Role="RV_WineComment" EntitySet="RV_WineComment" />
+          </AssociationSet>
           <AssociationSet Name="FK_RV_Winery_RV_AreaCategory" Association="Self.FK_RV_Winery_RV_AreaCategory">
             <End Role="RV_AreaCategory" EntitySet="RV_AreaCategory" />
             <End Role="RV_Winery" EntitySet="RV_Winery" />
@@ -853,10 +1024,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_RV_WineryCommand_RV_Wine" Association="Self.FK_RV_WineryCommand_RV_Wine">
             <End Role="RV_Wine" EntitySet="RV_Wine" />
-            <End Role="RV_WineryCommand" EntitySet="RV_WineryCommand" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RV_WineryCommand_RV_WineComment" Association="Self.FK_RV_WineryCommand_RV_WineComment">
-            <End Role="RV_WineComment" EntitySet="RV_WineComment" />
             <End Role="RV_WineryCommand" EntitySet="RV_WineryCommand" />
           </AssociationSet>
           <AssociationSet Name="FK_RV_WineryCommand_RV_Winery" Association="Self.FK_RV_WineryCommand_RV_Winery">
@@ -982,28 +1149,6 @@
             <End Role="RV_User" EntitySet="RV_User" />
             <End Role="RV_Rate" EntitySet="RV_Rate" />
           </AssociationSet>
-          <EntitySet Name="RV_WineryCommand" EntityType="ArvinoModel.RV_WineryCommand" />
-          <AssociationSet Name="FK_RV_WineryCommand_RV_Wine" Association="ArvinoModel.FK_RV_WineryCommand_RV_Wine">
-            <End Role="RV_Wine" EntitySet="RV_Wine" />
-            <End Role="RV_WineryCommand" EntitySet="RV_WineryCommand" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RV_WineryCommand_RV_Winery" Association="ArvinoModel.FK_RV_WineryCommand_RV_Winery">
-            <End Role="RV_Winery" EntitySet="RV_Winery" />
-            <End Role="RV_WineryCommand" EntitySet="RV_WineryCommand" />
-          </AssociationSet>
-          <EntitySet Name="RV_WineComment" EntityType="ArvinoModel.RV_WineComment" />
-          <AssociationSet Name="FK__RV_WineCo__email__2F650636" Association="ArvinoModel.FK__RV_WineCo__email__2F650636">
-            <End Role="RV_User" EntitySet="RV_User" />
-            <End Role="RV_WineComment" EntitySet="RV_WineComment" />
-          </AssociationSet>
-          <AssociationSet Name="FK__RV_WineCo__wineI__30592A6F" Association="ArvinoModel.FK__RV_WineCo__wineI__30592A6F">
-            <End Role="RV_Wine" EntitySet="RV_Wine" />
-            <End Role="RV_WineComment" EntitySet="RV_WineComment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RV_WineryCommand_RV_WineComment" Association="ArvinoModel.FK_RV_WineryCommand_RV_WineComment">
-            <End Role="RV_WineComment" EntitySet="RV_WineComment" />
-            <End Role="RV_WineryCommand" EntitySet="RV_WineryCommand" />
-          </AssociationSet>
           <EntitySet Name="RV_KNNCategory" EntityType="ArvinoModel.RV_KNNCategory" />
           <EntitySet Name="RV_EntityTypes" EntityType="ArvinoModel.RV_EntityTypes" />
           <EntitySet Name="RV_LikesUsers" EntityType="ArvinoModel.RV_LikesUsers" />
@@ -1022,6 +1167,40 @@
           <AssociationSet Name="FK_RV_Service_RV_Winery" Association="ArvinoModel.FK_RV_Service_RV_Winery">
             <End Role="RV_Winery" EntitySet="RV_Winery" />
             <End Role="RV_Service" EntitySet="RV_Service" />
+          </AssociationSet>
+          <EntitySet Name="Emails" EntityType="ArvinoModel.Email" />
+          <EntitySet Name="events" EntityType="ArvinoModel.event" />
+          <EntitySet Name="Events1" EntityType="ArvinoModel.Event1" />
+          <EntitySet Name="Files" EntityType="ArvinoModel.File" />
+          <EntitySet Name="Folders" EntityType="ArvinoModel.Folder" />
+          <EntitySet Name="Groups" EntityType="ArvinoModel.Group" />
+          <EntitySet Name="Questionere1" EntityType="ArvinoModel.Questionere1" />
+          <EntitySet Name="ShareCourses" EntityType="ArvinoModel.ShareCours" />
+          <EntitySet Name="Students" EntityType="ArvinoModel.Student" />
+          <EntitySet Name="sysdiagrams" EntityType="ArvinoModel.sysdiagram" />
+          <EntitySet Name="Tests" EntityType="ArvinoModel.Test" />
+          <EntitySet Name="ToDoes" EntityType="ArvinoModel.ToDo" />
+          <EntitySet Name="users" EntityType="ArvinoModel.user" />
+          <EntitySet Name="Wineries" EntityType="ArvinoModel.Winery" />
+          <EntitySet Name="Wines" EntityType="ArvinoModel.Wine" />
+          <EntitySet Name="File_in_Email" EntityType="ArvinoModel.File_in_Email" />
+          <EntitySet Name="RV_WineryCommand" EntityType="ArvinoModel.RV_WineryCommand" />
+          <AssociationSet Name="FK_RV_WineryCommand_RV_Wine" Association="ArvinoModel.FK_RV_WineryCommand_RV_Wine">
+            <End Role="RV_Wine" EntitySet="RV_Wine" />
+            <End Role="RV_WineryCommand" EntitySet="RV_WineryCommand" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RV_WineryCommand_RV_Winery" Association="ArvinoModel.FK_RV_WineryCommand_RV_Winery">
+            <End Role="RV_Winery" EntitySet="RV_Winery" />
+            <End Role="RV_WineryCommand" EntitySet="RV_WineryCommand" />
+          </AssociationSet>
+          <EntitySet Name="RV_WineComment" EntityType="ArvinoModel.RV_WineComment" />
+          <AssociationSet Name="FK_RV_WineComment_RV_User" Association="ArvinoModel.FK_RV_WineComment_RV_User">
+            <End Role="RV_User" EntitySet="RV_User" />
+            <End Role="RV_WineComment" EntitySet="RV_WineComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RV_WineComment_RV_Wine" Association="ArvinoModel.FK_RV_WineComment_RV_Wine">
+            <End Role="RV_Wine" EntitySet="RV_Wine" />
+            <End Role="RV_WineComment" EntitySet="RV_WineComment" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="RV_Answers">
@@ -1233,8 +1412,10 @@
           <NavigationProperty Name="RV_UserPrefrences" Relationship="ArvinoModel.FK_RV_UserPrefrences_RV_User" FromRole="RV_User" ToRole="RV_UserPrefrences" />
           <NavigationProperty Name="RV_Winery" Relationship="ArvinoModel.FK_RV_Winery_RV_User" FromRole="RV_User" ToRole="RV_Winery" />
           <NavigationProperty Name="RV_Rate" Relationship="ArvinoModel.FK_RV_Rate_RV_User" FromRole="RV_User" ToRole="RV_Rate" />
-          <NavigationProperty Name="RV_WineComment" Relationship="ArvinoModel.FK__RV_WineCo__email__2F650636" FromRole="RV_User" ToRole="RV_WineComment" />
           <NavigationProperty Name="RV_LikesUsers" Relationship="ArvinoModel.FK_RV_LikesUsers_RV_User" FromRole="RV_User" ToRole="RV_LikesUsers" />
+          <Property Name="token" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="isPremium" Type="Boolean" />
+          <NavigationProperty Name="RV_WineComment" Relationship="ArvinoModel.FK_RV_WineComment_RV_User" FromRole="RV_User" ToRole="RV_WineComment" />
         </EntityType>
         <EntityType Name="RV_UserJoinChatRoom">
           <Key>
@@ -1299,7 +1480,7 @@
           <NavigationProperty Name="RV_Winery" Relationship="ArvinoModel.FK_RV_Wine_RV_Winery" FromRole="RV_Wine" ToRole="RV_Winery" />
           <NavigationProperty Name="RV_Rate" Relationship="ArvinoModel.FK__RV_Rate__wineId__4C6B5938" FromRole="RV_Wine" ToRole="RV_Rate" />
           <NavigationProperty Name="RV_WineryCommand" Relationship="ArvinoModel.FK_RV_WineryCommand_RV_Wine" FromRole="RV_Wine" ToRole="RV_WineryCommand" />
-          <NavigationProperty Name="RV_WineComment" Relationship="ArvinoModel.FK__RV_WineCo__wineI__30592A6F" FromRole="RV_Wine" ToRole="RV_WineComment" />
+          <NavigationProperty Name="RV_WineComment" Relationship="ArvinoModel.FK_RV_WineComment_RV_Wine" FromRole="RV_Wine" ToRole="RV_WineComment" />
         </EntityType>
         <EntityType Name="RV_WineCategory">
           <Key>
@@ -1324,9 +1505,9 @@
           <Property Name="wineryManagerEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="RV_User" Relationship="ArvinoModel.FK_RV_Winery_RV_User" FromRole="RV_Winery" ToRole="RV_User" />
           <NavigationProperty Name="RV_Wine" Relationship="ArvinoModel.FK_RV_Wine_RV_Winery" FromRole="RV_Winery" ToRole="RV_Wine" />
-          <NavigationProperty Name="RV_WineryCommand" Relationship="ArvinoModel.FK_RV_WineryCommand_RV_Winery" FromRole="RV_Winery" ToRole="RV_WineryCommand" />
           <NavigationProperty Name="RV_AreaCategory" Relationship="ArvinoModel.FK_RV_Winery_RV_AreaCategory" FromRole="RV_Winery" ToRole="RV_AreaCategory" />
           <NavigationProperty Name="RV_Service" Relationship="ArvinoModel.FK_RV_Service_RV_Winery" FromRole="RV_Winery" ToRole="RV_Service" />
+          <NavigationProperty Name="RV_WineryCommand" Relationship="ArvinoModel.FK_RV_WineryCommand_RV_Winery" FromRole="RV_Winery" ToRole="RV_WineryCommand" />
         </EntityType>
         <EntityType Name="RV_WineryImage">
           <Key>
@@ -1614,95 +1795,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="RV_WineryCommand">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="wineId" Type="Int32" Nullable="false" />
-          <Property Name="wineryId" Type="Int32" Nullable="false" />
-          <Property Name="commendOn" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="RV_Wine" Relationship="ArvinoModel.FK_RV_WineryCommand_RV_Wine" FromRole="RV_WineryCommand" ToRole="RV_Wine" />
-          <NavigationProperty Name="RV_Winery" Relationship="ArvinoModel.FK_RV_WineryCommand_RV_Winery" FromRole="RV_WineryCommand" ToRole="RV_Winery" />
-          <NavigationProperty Name="RV_WineComment" Relationship="ArvinoModel.FK_RV_WineryCommand_RV_WineComment" FromRole="RV_WineryCommand" ToRole="RV_WineComment" />
-        </EntityType>
-        <Association Name="FK_RV_WineryCommand_RV_Wine">
-          <End Type="ArvinoModel.RV_Wine" Role="RV_Wine" Multiplicity="1" />
-          <End Type="ArvinoModel.RV_WineryCommand" Role="RV_WineryCommand" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RV_Wine">
-              <PropertyRef Name="wineId" />
-            </Principal>
-            <Dependent Role="RV_WineryCommand">
-              <PropertyRef Name="wineId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RV_WineryCommand_RV_Winery">
-          <End Type="ArvinoModel.RV_Winery" Role="RV_Winery" Multiplicity="1" />
-          <End Type="ArvinoModel.RV_WineryCommand" Role="RV_WineryCommand" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RV_Winery">
-              <PropertyRef Name="wineryId" />
-            </Principal>
-            <Dependent Role="RV_WineryCommand">
-              <PropertyRef Name="wineryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="RV_WineComment">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="wineId" Type="Int32" Nullable="false" />
-          <Property Name="type" Type="Int32" />
-          <NavigationProperty Name="RV_User" Relationship="ArvinoModel.FK__RV_WineCo__email__2F650636" FromRole="RV_WineComment" ToRole="RV_User" />
-          <NavigationProperty Name="RV_Wine" Relationship="ArvinoModel.FK__RV_WineCo__wineI__30592A6F" FromRole="RV_WineComment" ToRole="RV_Wine" />
-          <NavigationProperty Name="RV_WineryCommand" Relationship="ArvinoModel.FK_RV_WineryCommand_RV_WineComment" FromRole="RV_WineComment" ToRole="RV_WineryCommand" />
-          <Property Name="rate" Type="Int32" />
-        </EntityType>
-        <Association Name="FK__RV_WineCo__email__2F650636">
-          <End Type="ArvinoModel.RV_User" Role="RV_User" Multiplicity="1" />
-          <End Type="ArvinoModel.RV_WineComment" Role="RV_WineComment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RV_User">
-              <PropertyRef Name="email" />
-            </Principal>
-            <Dependent Role="RV_WineComment">
-              <PropertyRef Name="email" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__RV_WineCo__wineI__30592A6F">
-          <End Type="ArvinoModel.RV_Wine" Role="RV_Wine" Multiplicity="1" />
-          <End Type="ArvinoModel.RV_WineComment" Role="RV_WineComment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RV_Wine">
-              <PropertyRef Name="wineId" />
-            </Principal>
-            <Dependent Role="RV_WineComment">
-              <PropertyRef Name="wineId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RV_WineryCommand_RV_WineComment">
-          <End Type="ArvinoModel.RV_WineComment" Role="RV_WineComment" Multiplicity="1" />
-          <End Type="ArvinoModel.RV_WineryCommand" Role="RV_WineryCommand" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RV_WineComment">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="RV_WineryCommand">
-              <PropertyRef Name="commendOn" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="RV_KNNCategory">
           <Key>
             <PropertyRef Name="email" />
@@ -1784,6 +1876,238 @@
             </Principal>
             <Dependent Role="RV_Service">
               <PropertyRef Name="wineryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="Adress" />
+          </Key>
+          <Property Name="Adress" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Date_Of_Share" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="event">
+          <Key>
+            <PropertyRef Name="event_id" />
+          </Key>
+          <Property Name="event_start" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="event_end" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="event_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserNameEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="day" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Event1">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="3" Scale="0" />
+          <Property Name="TicketsLeft" Type="Int32" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="File_num" />
+          </Key>
+          <Property Name="File_num" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Folder_Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="HTML" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserNameEmail" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Folder">
+          <Key>
+            <PropertyRef Name="FolderId" />
+          </Key>
+          <Property Name="Folder_Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="FolderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserNameEmail" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Questionere1">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Question" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ans1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ans2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ans3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ans4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ShareCours">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShareTo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ShareFromUserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="HTML" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CourseName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="UserNameEmail" />
+          </Key>
+          <Property Name="Last_Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="First_Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserNameEmail" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ProfilePic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Test">
+          <Key>
+            <PropertyRef Name="event_id" />
+          </Key>
+          <Property Name="event_start" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="event_end" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="event_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserNameEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ToDo">
+          <Key>
+            <PropertyRef Name="ToDoID" />
+          </Key>
+          <Property Name="ToDoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UserNameEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="isOlder" Type="Boolean" />
+          <Property Name="picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Winery">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WineryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WineryImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CatgeoryID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Wine">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WineName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WineImg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="File_in_Email">
+          <Key>
+            <PropertyRef Name="Seq_number" />
+            <PropertyRef Name="File_num" />
+            <PropertyRef Name="Adress" />
+          </Key>
+          <Property Name="Seq_number" Type="Int32" Nullable="false" />
+          <Property Name="File_num" Type="Int32" Nullable="false" />
+          <Property Name="Adress" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="RV_WineryCommand">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="wineId" Type="Int32" Nullable="false" />
+          <Property Name="wineryId" Type="Int32" Nullable="false" />
+          <Property Name="commendOn" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RV_Wine" Relationship="ArvinoModel.FK_RV_WineryCommand_RV_Wine" FromRole="RV_WineryCommand" ToRole="RV_Wine" />
+          <NavigationProperty Name="RV_Winery" Relationship="ArvinoModel.FK_RV_WineryCommand_RV_Winery" FromRole="RV_WineryCommand" ToRole="RV_Winery" />
+        </EntityType>
+        <Association Name="FK_RV_WineryCommand_RV_Wine">
+          <End Type="ArvinoModel.RV_Wine" Role="RV_Wine" Multiplicity="1" />
+          <End Type="ArvinoModel.RV_WineryCommand" Role="RV_WineryCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RV_Wine">
+              <PropertyRef Name="wineId" />
+            </Principal>
+            <Dependent Role="RV_WineryCommand">
+              <PropertyRef Name="wineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RV_WineryCommand_RV_Winery">
+          <End Type="ArvinoModel.RV_Winery" Role="RV_Winery" Multiplicity="1" />
+          <End Type="ArvinoModel.RV_WineryCommand" Role="RV_WineryCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RV_Winery">
+              <PropertyRef Name="wineryId" />
+            </Principal>
+            <Dependent Role="RV_WineryCommand">
+              <PropertyRef Name="wineryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="RV_WineComment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="wineId" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="Int32" />
+          <Property Name="rate" Type="Int32" />
+          <NavigationProperty Name="RV_User" Relationship="ArvinoModel.FK_RV_WineComment_RV_User" FromRole="RV_WineComment" ToRole="RV_User" />
+          <NavigationProperty Name="RV_Wine" Relationship="ArvinoModel.FK_RV_WineComment_RV_Wine" FromRole="RV_WineComment" ToRole="RV_Wine" />
+        </EntityType>
+        <Association Name="FK_RV_WineComment_RV_User">
+          <End Type="ArvinoModel.RV_User" Role="RV_User" Multiplicity="1" />
+          <End Type="ArvinoModel.RV_WineComment" Role="RV_WineComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RV_User">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="RV_WineComment">
+              <PropertyRef Name="email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RV_WineComment_RV_Wine">
+          <End Type="ArvinoModel.RV_Wine" Role="RV_Wine" Multiplicity="1" />
+          <End Type="ArvinoModel.RV_WineComment" Role="RV_WineComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RV_Wine">
+              <PropertyRef Name="wineId" />
+            </Principal>
+            <Dependent Role="RV_WineComment">
+              <PropertyRef Name="wineId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1980,6 +2304,8 @@
           <EntitySetMapping Name="RV_User">
             <EntityTypeMapping TypeName="ArvinoModel.RV_User">
               <MappingFragment StoreEntitySet="RV_User">
+                <ScalarProperty Name="isPremium" ColumnName="isPremium" />
+                <ScalarProperty Name="token" ColumnName="token" />
                 <ScalarProperty Name="isOlder" ColumnName="isOlder" />
                 <ScalarProperty Name="registrationDate" ColumnName="registrationDate" />
                 <ScalarProperty Name="phone" ColumnName="phone" />
@@ -2103,31 +2429,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RV_WineryCommand">
-            <EntityTypeMapping TypeName="ArvinoModel.RV_WineryCommand">
-              <MappingFragment StoreEntitySet="RV_WineryCommand">
-                <ScalarProperty Name="commendOn" ColumnName="commendOn" />
-                <ScalarProperty Name="wineryId" ColumnName="wineryId" />
-                <ScalarProperty Name="wineId" ColumnName="wineId" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RV_WineComment">
-            <EntityTypeMapping TypeName="ArvinoModel.RV_WineComment">
-              <MappingFragment StoreEntitySet="RV_WineComment">
-                <ScalarProperty Name="rate" ColumnName="rate" />
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="wineId" ColumnName="wineId" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RV_KNNCategory">
             <EntityTypeMapping TypeName="ArvinoModel.RV_KNNCategory">
               <MappingFragment StoreEntitySet="RV_KNNCategory">
@@ -2161,6 +2462,202 @@
                 <ScalarProperty Name="entityId" ColumnName="entityId" />
                 <ScalarProperty Name="entityType" ColumnName="entityType" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emails">
+            <EntityTypeMapping TypeName="ArvinoModel.Email">
+              <MappingFragment StoreEntitySet="Email">
+                <ScalarProperty Name="Date_Of_Share" ColumnName="Date_Of_Share" />
+                <ScalarProperty Name="Adress" ColumnName="Adress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="events">
+            <EntityTypeMapping TypeName="ArvinoModel.event">
+              <MappingFragment StoreEntitySet="event">
+                <ScalarProperty Name="day" ColumnName="day" />
+                <ScalarProperty Name="UserNameEmail" ColumnName="UserNameEmail" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="event_id" ColumnName="event_id" />
+                <ScalarProperty Name="event_end" ColumnName="event_end" />
+                <ScalarProperty Name="event_start" ColumnName="event_start" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events1">
+            <EntityTypeMapping TypeName="ArvinoModel.Event1">
+              <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="TicketsLeft" ColumnName="TicketsLeft" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Files">
+            <EntityTypeMapping TypeName="ArvinoModel.File">
+              <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="UserNameEmail" ColumnName="UserNameEmail" />
+                <ScalarProperty Name="HTML" ColumnName="HTML" />
+                <ScalarProperty Name="Folder_Name" ColumnName="Folder_Name" />
+                <ScalarProperty Name="File_num" ColumnName="File_num" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Folders">
+            <EntityTypeMapping TypeName="ArvinoModel.Folder">
+              <MappingFragment StoreEntitySet="Folders">
+                <ScalarProperty Name="UserNameEmail" ColumnName="UserNameEmail" />
+                <ScalarProperty Name="FolderId" ColumnName="FolderId" />
+                <ScalarProperty Name="Folder_Name" ColumnName="Folder_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="ArvinoModel.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="picture" ColumnName="picture" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questionere1">
+            <EntityTypeMapping TypeName="ArvinoModel.Questionere1">
+              <MappingFragment StoreEntitySet="Questionere1">
+                <ScalarProperty Name="ans4" ColumnName="ans4" />
+                <ScalarProperty Name="ans3" ColumnName="ans3" />
+                <ScalarProperty Name="ans2" ColumnName="ans2" />
+                <ScalarProperty Name="ans1" ColumnName="ans1" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShareCourses">
+            <EntityTypeMapping TypeName="ArvinoModel.ShareCours">
+              <MappingFragment StoreEntitySet="ShareCourses">
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="HTML" ColumnName="HTML" />
+                <ScalarProperty Name="ShareFromUserName" ColumnName="ShareFromUserName" />
+                <ScalarProperty Name="ShareTo" ColumnName="ShareTo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="ArvinoModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="ProfilePic" ColumnName="ProfilePic" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserNameEmail" ColumnName="UserNameEmail" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ArvinoModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tests">
+            <EntityTypeMapping TypeName="ArvinoModel.Test">
+              <MappingFragment StoreEntitySet="Tests">
+                <ScalarProperty Name="UserNameEmail" ColumnName="UserNameEmail" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="event_id" ColumnName="event_id" />
+                <ScalarProperty Name="event_end" ColumnName="event_end" />
+                <ScalarProperty Name="event_start" ColumnName="event_start" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ToDoes">
+            <EntityTypeMapping TypeName="ArvinoModel.ToDo">
+              <MappingFragment StoreEntitySet="ToDo">
+                <ScalarProperty Name="UserNameEmail" ColumnName="UserNameEmail" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="dt" ColumnName="dt" />
+                <ScalarProperty Name="ToDoID" ColumnName="ToDoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="ArvinoModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="picture" ColumnName="picture" />
+                <ScalarProperty Name="isOlder" ColumnName="isOlder" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wineries">
+            <EntityTypeMapping TypeName="ArvinoModel.Winery">
+              <MappingFragment StoreEntitySet="Wineries">
+                <ScalarProperty Name="CatgeoryID" ColumnName="CatgeoryID" />
+                <ScalarProperty Name="WineryImage" ColumnName="WineryImage" />
+                <ScalarProperty Name="WineryName" ColumnName="WineryName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wines">
+            <EntityTypeMapping TypeName="ArvinoModel.Wine">
+              <MappingFragment StoreEntitySet="Wines">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="WineImg" ColumnName="WineImg" />
+                <ScalarProperty Name="WineName" ColumnName="WineName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="File_in_Email">
+            <EntityTypeMapping TypeName="ArvinoModel.File_in_Email">
+              <MappingFragment StoreEntitySet="File_in_Email">
+                <ScalarProperty Name="Adress" ColumnName="Adress" />
+                <ScalarProperty Name="File_num" ColumnName="File_num" />
+                <ScalarProperty Name="Seq_number" ColumnName="Seq_number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RV_WineryCommand">
+            <EntityTypeMapping TypeName="ArvinoModel.RV_WineryCommand">
+              <MappingFragment StoreEntitySet="RV_WineryCommand">
+                <ScalarProperty Name="commendOn" ColumnName="commendOn" />
+                <ScalarProperty Name="wineryId" ColumnName="wineryId" />
+                <ScalarProperty Name="wineId" ColumnName="wineId" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RV_WineComment">
+            <EntityTypeMapping TypeName="ArvinoModel.RV_WineComment">
+              <MappingFragment StoreEntitySet="RV_WineComment">
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="wineId" ColumnName="wineId" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

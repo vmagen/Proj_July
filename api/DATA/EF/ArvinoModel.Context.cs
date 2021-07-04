@@ -55,10 +55,26 @@ namespace DATA.EF
         public virtual DbSet<RV_WineryImage> RV_WineryImage { get; set; }
         public virtual DbSet<RV_WineryManager> RV_WineryManager { get; set; }
         public virtual DbSet<RV_Rate> RV_Rate { get; set; }
-        public virtual DbSet<RV_WineryCommand> RV_WineryCommand { get; set; }
-        public virtual DbSet<RV_WineComment> RV_WineComment { get; set; }
         public virtual DbSet<RV_KNNCategory> RV_KNNCategory { get; set; }
         public virtual DbSet<RV_EntityTypes> RV_EntityTypes { get; set; }
         public virtual DbSet<RV_LikesUsers> RV_LikesUsers { get; set; }
+        public virtual DbSet<Email> Emails { get; set; }
+        public virtual DbSet<@event> events { get; set; }
+        public virtual DbSet<Event1> Events1 { get; set; }
+        public virtual DbSet<File> Files { get; set; }
+        public virtual DbSet<Folder> Folders { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<Questionere1> Questionere1 { get; set; }
+        public virtual DbSet<ShareCours> ShareCourses { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Test> Tests { get; set; }
+        public virtual DbSet<ToDo> ToDoes { get; set; }
+        public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<Winery> Wineries { get; set; }
+        public virtual DbSet<Wine> Wines { get; set; }
+        public virtual DbSet<File_in_Email> File_in_Email { get; set; }
+        public virtual DbSet<RV_WineryCommand> RV_WineryCommand { get; set; }
+        public virtual DbSet<RV_WineComment> RV_WineComment { get; set; }
     }
 }

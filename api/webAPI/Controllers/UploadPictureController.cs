@@ -59,12 +59,12 @@ namespace webAPI.Controllers
                             {
                                 if (Path.GetFileNameWithoutExtension(fileName).IndexOf(Path.GetFileNameWithoutExtension(name)) != -1)
                                 {
-                                    File.Delete(fileName);
+                                    System.IO.File.Delete(fileName);
                                 }
                             }
 
-                            File.Copy(item.LocalFileName, Path.Combine(rootPath, newFileName), true);
-                            File.Delete(item.LocalFileName);
+                            System.IO.File.Copy(item.LocalFileName, Path.Combine(rootPath, newFileName), true);
+                            System.IO.File.Delete(item.LocalFileName);
 
                             Uri baseuri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, string.Empty));
                             string fileRelativePath = "~/uploadFiles/" + newFileName;
@@ -96,7 +96,7 @@ namespace webAPI.Controllers
             DirectoryInfo info = Directory.GetParent(path);
             string fileName = Path.GetFileName(path);
             DirectoryInfo info2 = Directory.GetParent(info.FullName);
-            File.Move(path, info2.FullName + "\\FinalPics\\" + fileName);
+            System.IO.File.Move(path, info2.FullName + "\\FinalPics\\" + fileName);
 
             Uri baseuri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, string.Empty));
             string fileRelativePath = "~/FinalPics/" + fileName;
