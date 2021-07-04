@@ -57,5 +57,26 @@ namespace webAPI.Models
             return db.RV_Service.SingleOrDefault(x => x.serviceId == id);
         }
 
+
+
+        public static List<ServiceDTO> GetCategores(ArvinoDbContext db)
+        {
+            List<ServiceDTO> returnList = new List<ServiceDTO>();
+            return db.RV_Service.Select(s => new ServiceDTO()
+            { serviceCategory = s.serviceCategory }).ToList();
+        }
+
+        public static List<ServiceDTO> sortCategory(string type, int wineryId, ArvinoDbContext db)
+        {
+            return db.RV_Service.Where(c => c.serviceCategory == type && c.wineryId == wineryId).Select(w => new ServiceDTO()
+            {
+                serviceId = w.serviceId,
+                serviceName = w.serviceName,
+                content = w.content,
+                price = w.price,
+                serviceCategory = w.serviceCategory
+            }).ToList();
+
+        }
     }
 }

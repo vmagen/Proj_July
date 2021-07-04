@@ -150,5 +150,56 @@ namespace webAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// https://localhost:44370/api/Service/GetCategories
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/Service/GetCategories")]
+        public IHttpActionResult GetCategories()
+        {
+            try
+            {
+                return Ok(ServiceModel.GetCategores(db));
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// https://localhost:44370/api/Service/GetServiceByCategory?id=1
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/Service/GetServiceByCategory")]
+        public IHttpActionResult GetServiceByCategory(string type, int wineryId)
+        {
+            try
+            {
+                List<ServiceDTO> w = ServiceModel.sortCategory(type, wineryId, db);
+                if (w == null)
+                {
+                    return Content(HttpStatusCode.BadRequest, "אין שירותים בקטגוריה");
+                }
+                return Ok(w);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
     }
 }
