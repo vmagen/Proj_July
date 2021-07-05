@@ -23,6 +23,5 @@ namespace DATA.EF
     
         public virtual RV_Wine RV_Wine { get; set; }
         public virtual RV_Winery RV_Winery { get; set; }
-        public virtual RV_WineComment RV_WineComment { get; set; }
     }
 }

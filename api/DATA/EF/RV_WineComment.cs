@@ -14,12 +14,6 @@ namespace DATA.EF
     
     public partial class RV_WineComment
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public RV_WineComment()
-        {
-            this.RV_WineryCommand = new HashSet<RV_WineryCommand>();
-        }
-    
         public int id { get; set; }
         public string text { get; set; }
         public System.DateTime date { get; set; }
@@ -30,7 +24,5 @@ namespace DATA.EF
     
         public virtual RV_User RV_User { get; set; }
         public virtual RV_Wine RV_Wine { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RV_WineryCommand> RV_WineryCommand { get; set; }
     }
 }

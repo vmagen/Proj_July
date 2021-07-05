@@ -101,18 +101,6 @@ namespace webAPI.Controllers
                 return Content(HttpStatusCode.NotFound,
                     $"service with id {id} was not found to delete!");
 
-                RV_ServiceImage[] img = db.RV_ServiceImage.Where(i => i.serviceId == id).Select(i => new RV_ServiceImage { }).ToArray();
-                for (int i = 0; i < img.Length; i++)
-                {
-                    if (img[i] != null)
-                    {
-                        db.RV_ServiceImage.Remove(img[i]);
-                        db.SaveChanges();
-                        return Ok();
-                    }
-                    return Content(HttpStatusCode.NotFound,
-                        $"img was not found to delete!");
-                }
 
             }
             catch (Exception ex)

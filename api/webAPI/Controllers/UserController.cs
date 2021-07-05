@@ -214,10 +214,15 @@ namespace webAPI.Controllers
                             registrationDate = d,
                             picture = value.picture,
                             isOlder = value.isOlder,
-                            typeId = value.typeId
+                            typeId = value.typeId,
+                            token=value.token
                         };
                         db.RV_User.Add(user);
                         db.SaveChanges();
+                        if (user.typeId == 3)
+                        {
+                            DATA.Extention.RV_KNNCategory.AddNewUser(db, new RV_KNNCategory(), user.email);
+                        }
                         return Ok();
                     }
                     else
