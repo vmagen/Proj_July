@@ -50,41 +50,6 @@ namespace webAPI.Controllers
         }
 
         /// <summary>
-        /// https://localhost:44370/api/Event/PutEvent?id=1
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        [HttpPut]
-        public IHttpActionResult PutEvent(int id, [FromBody] RV_Event value)
-        {
-            try
-            {
-                RV_Event e = db.RV_Event.SingleOrDefault(x => x.eventId == id);
-                if (e != null)
-                {
-                    e.eventName = value.eventName;
-                    e.content = value.content;
-                    e.price = value.price;
-                    e.participantsAmount = value.participantsAmount;
-                    e.eventDate = value.eventDate;
-                    e.startTime = value.startTime;
-                    e.eventImgPath = value.eventImgPath;
-                    e.categoryId = value.categoryId;
-                    e.wineryId = value.wineryId;
-                    db.SaveChanges();
-                    return Ok(e);
-                }
-                return Content(HttpStatusCode.NotFound,
-                    $"event with id {id} was not found to update!");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        /// <summary>
         /// https://localhost:44370/api/Event/GetWineryEvents?id=1
         /// </summary>
         /// <returns></returns>
@@ -173,6 +138,41 @@ namespace webAPI.Controllers
             catch (Exception ex)
             {
                 return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+        /// <summary>
+        /// https://localhost:44370/api/Event/PutEvent?id=1
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public IHttpActionResult PutEvent(int id, [FromBody] RV_Event value)
+        {
+            try
+            {
+                RV_Event e = db.RV_Event.SingleOrDefault(x => x.eventId == id);
+                if (e != null)
+                {
+                    e.eventName = value.eventName;
+                    e.content = value.content;
+                    e.price = value.price;
+                    e.participantsAmount = value.participantsAmount;
+                    e.eventDate = value.eventDate;
+                    e.startTime = value.startTime;
+                    e.eventImgPath = value.eventImgPath;
+                    e.categoryId = value.categoryId;
+                    e.wineryId = value.wineryId;
+                    db.SaveChanges();
+                    return Ok(e);
+                }
+                return Content(HttpStatusCode.NotFound,
+                    $"לא נמצא {id} אירוע עם מזהה");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }
