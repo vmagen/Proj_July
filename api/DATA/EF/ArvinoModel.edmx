@@ -157,6 +157,7 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
           <Property Name="ImgPath" Type="varchar(max)" Nullable="false" />
           <Property Name="groupDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="creatorEmail" Type="varchar" MaxLength="50" />
+          <Property Name="creationDate" Type="datetime" />
         </EntityType>
         <EntityType Name="RV_GroupMessages">
           <Key>
@@ -1278,6 +1279,7 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
           <NavigationProperty Name="RV_MessageInGroup" Relationship="ArvinoModel.FK__RV_Messag__group__7849DB76" FromRole="RV_Group" ToRole="RV_MessageInGroup" />
           <NavigationProperty Name="RV_UserJoinGroup" Relationship="ArvinoModel.FK__RV_UserJo__group__719CDDE7" FromRole="RV_Group" ToRole="RV_UserJoinGroup" />
           <NavigationProperty Name="RV_GroupMessages" Relationship="ArvinoModel.FK_RV_GroupMessages_RV_Group" FromRole="RV_Group" ToRole="RV_GroupMessages" />
+          <Property Name="creationDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="RV_GroupMessages">
           <Key>
@@ -2180,6 +2182,7 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
           <EntitySetMapping Name="RV_Group">
             <EntityTypeMapping TypeName="ArvinoModel.RV_Group">
               <MappingFragment StoreEntitySet="RV_Group">
+                <ScalarProperty Name="creationDate" ColumnName="creationDate" />
                 <ScalarProperty Name="creatorEmail" ColumnName="creatorEmail" />
                 <ScalarProperty Name="groupDescription" ColumnName="groupDescription" />
                 <ScalarProperty Name="ImgPath" ColumnName="ImgPath" />

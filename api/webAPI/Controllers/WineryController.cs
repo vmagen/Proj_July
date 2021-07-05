@@ -221,5 +221,24 @@ namespace webAPI.Controllers
                 return Content(HttpStatusCode.BadRequest, ex);
             }
         }
+
+        //get winery by id
+        /// <summary>
+        /// https://localhost:44370/api/Winery?id=1 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/Winery")]
+        public IHttpActionResult Get(int id)
+        {
+            try
+            {
+                return Ok(WineryModel.GetWineryByID(id, db));
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
     }
 }

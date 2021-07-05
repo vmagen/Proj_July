@@ -28,6 +28,7 @@ namespace DATA.EF
         public string ImgPath { get; set; }
         public string groupDescription { get; set; }
         public string creatorEmail { get; set; }
+        public Nullable<System.DateTime> creationDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RV_KeyWords> RV_KeyWords { get; set; }

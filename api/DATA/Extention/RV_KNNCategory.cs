@@ -13,27 +13,33 @@ namespace DATA.Extention
         {
             try
             {
-                DATA.EF.RV_KNNCategory single = db.RV_KNNCategory.SingleOrDefault(i => i.email == email);
-                if(single == null)
+                using (var context = new ArvinoDbContext())
+                {
+                    DATA.EF.RV_KNNCategory single = context.RV_KNNCategory.SingleOrDefault(i => i.email == email);
+                    if (single == null)
                     {
-                    newRecord.email = email;
-                    newRecord.red = 0;
-                    newRecord.white = 0;
-                    newRecord.rose = 0;
-                    newRecord.bubble = 0;
-                    newRecord.negev = 0;
-                    newRecord.Galil = 0;
-                    newRecord.Golan = 0;
-                    newRecord.shomron = 0;
-                    newRecord.Carmel = 0;
-                    newRecord.yehuda = 0;
+                        newRecord.email = email;
+                        newRecord.red = 0;
+                        newRecord.white = 0;
+                        newRecord.rose = 0;
+                        newRecord.bubble = 0;
+                        newRecord.negev = 0;
+                        newRecord.Galil = 0;
+                        newRecord.Golan = 0;
+                        newRecord.shomron = 0;
+                        newRecord.Carmel = 0;
+                        newRecord.yehuda = 0;
 
-                    db.RV_KNNCategory.Add(newRecord);
-                    db.SaveChanges();
+                        context.RV_KNNCategory.Add(newRecord);
+                        context.SaveChanges();
+                    }
                 }
 
             }
-            catch { }
+            catch
+            {
+                throw new Exception("Did not create KNN row.");
+            }
         }
     }
 }
