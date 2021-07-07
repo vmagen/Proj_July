@@ -37,8 +37,7 @@ namespace webAPI.Controllers
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        [HttpPost]
-        public IHttpActionResult PostServiceImg([FromBody] RV_ServiceImage value)
+        public IHttpActionResult Post([FromBody] RV_ServiceImage value)
         {
             try
             {

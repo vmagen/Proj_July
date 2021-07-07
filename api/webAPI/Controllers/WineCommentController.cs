@@ -50,6 +50,7 @@ namespace webAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("api/WineComment/GetWineComment")]
         public IHttpActionResult GetWineComment(int Id)
         {
             try
