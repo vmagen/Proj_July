@@ -9,6 +9,7 @@ using webAPI.Models;
 using webAPI.DTO;
 using System.Web.Http.Cors;
 using System.Data.Entity.Validation;
+using System.Threading.Tasks;
 
 namespace webAPI.Controllers
 {
@@ -179,61 +180,65 @@ namespace webAPI.Controllers
         public IHttpActionResult PostUser([FromBody] RV_User value)
         {
             DateTime d = DateTime.Now;
-
-            try
+            using (var context = new ArvinoDbContext())
             {
-                //is user exists?
-                RV_User u = UserModel.GetUser(value.email, db);
-
-                if (u == null)
+                try
                 {
-                    if (value.email != null & value.password != null & value.Name != null)
+                    //is user exists?
+                    RV_User u = UserModel.GetUser(value.email, context);
+
+                    if (u == null)
                     {
-                        RV_User user = new RV_User()
+                        if (value.email != null & value.password != null & value.Name != null)
                         {
-                            email = value.email,
-                            password = value.password,
-                            Name = value.Name,
-                            phone = Convert.ToString(value.phone),
-                            registrationDate = d,
-                            picture = value.picture,
-                            isOlder = value.isOlder,
-                            typeId = value.typeId,
-                            token=value.token
-                        };
-                        db.RV_User.Add(user);
-                        db.SaveChanges();
-                        if (user.typeId == 3)
-                        {
-                            DATA.Extention.RV_KNNCategory.AddNewUser(db, new RV_KNNCategory(), user.email);
+                            RV_User user = new RV_User()
+                            {
+                                email = value.email,
+                                password = value.password,
+                                Name = value.Name,
+                                phone = Convert.ToString(value.phone),
+                                registrationDate = d,
+                                picture = value.picture,
+                                isOlder = value.isOlder,
+                                typeId = value.typeId,
+                                token = value.token,
+                                isPremium=false
+                            };
+                            context.RV_User.Add(user);
+                            context.SaveChanges();
+                            if (user.typeId == 3)//APP USER 
+                            {
+                                DATA.Extention.RV_KNNCategory.AddNewUser(db, new RV_KNNCategory(), user.email);
+
+                            }
+                            return Ok();
                         }
-                        return Ok();
+                        else
+                        {
+                            return Content(HttpStatusCode.BadRequest, "אחד מהפרטים שהתבקשת למלא חסר");
+                        }
                     }
                     else
                     {
-                        return Content(HttpStatusCode.BadRequest, "אחד מהפרטים שהתבקשת למלא חסר");
+                        return Content(HttpStatusCode.BadRequest, "משתמש קיים במערכת");
                     }
                 }
-                else
+                catch (DbEntityValidationException ex)
                 {
-                    return Content(HttpStatusCode.BadRequest, "משתמש קיים במערכת");
-                }
-            }
-            catch (DbEntityValidationException ex)
-            {
-                string errors = "";
-                foreach (DbEntityValidationResult vr in ex.EntityValidationErrors)
-                {
-                    foreach (DbValidationError er in vr.ValidationErrors)
+                    string errors = "";
+                    foreach (DbEntityValidationResult vr in ex.EntityValidationErrors)
                     {
-                        errors += $"PropertyName - {er.PropertyName }, Error {er.ErrorMessage} <br/>";
+                        foreach (DbValidationError er in vr.ValidationErrors)
+                        {
+                            errors += $"PropertyName - {er.PropertyName }, Error {er.ErrorMessage} <br/>";
+                        }
                     }
+                    return Content(HttpStatusCode.BadRequest, errors);
                 }
-                return Content(HttpStatusCode.BadRequest, errors);
-            }
-            catch (Exception ex)
-            {
-                return Content(HttpStatusCode.BadRequest, ex);
+                catch (Exception ex)
+                {
+                    return Content(HttpStatusCode.BadRequest, ex);
+                }
             }
         }
 
