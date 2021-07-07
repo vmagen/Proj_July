@@ -171,7 +171,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AreaCategoryController.cs" />
-    <Compile Include="Controllers\ArvinoController.cs" />
     <Compile Include="Controllers\EventCategoryController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\GetAllSearchDataController.cs" />
@@ -192,6 +191,7 @@
     <Compile Include="Controllers\WineryController.cs" />
     <Compile Include="DTO\AppUserDTO.cs" />
     <Compile Include="DTO\AreaCategoryDTO.cs" />
+    <Compile Include="DTO\ChatWineryUserDTO.cs" />
     <Compile Include="DTO\EventCategoryDTO.cs" />
     <Compile Include="DTO\EventDTO.cs" />
     <Compile Include="DTO\GetAllSearchDataDTO.cs" />
@@ -210,6 +210,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AreaCategoryModel.cs" />
+    <Compile Include="Models\ChatWineryUserModel.cs" />
     <Compile Include="Models\EventCategoryModel.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\GetAllSearchDataModel.cs" />

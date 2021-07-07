@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using DATA.EF;
 
 namespace webAPI.DTO
 {
@@ -16,6 +17,7 @@ namespace webAPI.DTO
         public string userName { get; set; }
         public string winePitcure { get; set; }
         public string wineName { get; set; }
+        public List<RV_User> users { get; set; }
 
     }
 }

@@ -161,6 +161,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\webAPI\Controllers\EventCategoryController.cs">
+      <Link>EventCategoryController.cs</Link>
+    </Compile>
     <Compile Include="EF\ArvinoModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -207,6 +210,9 @@
       <DependentUpon>ArvinoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\RV_ChatRoom.cs">
+      <DependentUpon>ArvinoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\RV_ChatWineryUser.cs">
       <DependentUpon>ArvinoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\RV_Competition.cs">
@@ -326,6 +332,7 @@
     <Compile Include="EF\Winery.cs">
       <DependentUpon>ArvinoModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Extention\RV_Event.cs" />
     <Compile Include="Extention\RV_KNNCategory.cs" />
     <Compile Include="Extention\RV_User.cs" />
     <Compile Include="Extention\RV_Wine.cs" />

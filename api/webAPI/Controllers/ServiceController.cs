@@ -87,6 +87,7 @@ namespace webAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
+        [Route("api/Service/DeleteService")]
         public IHttpActionResult DeleteService(int id)
         {
             try
@@ -116,6 +117,7 @@ namespace webAPI.Controllers
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPut]
+        [Route("api/Service/PutService")]
         public IHttpActionResult PutService(int id, [FromBody] RV_Service value)
         {
             try
@@ -138,15 +140,6 @@ namespace webAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
-
-
-
-
-
-
-
 
         /// <summary>
         /// https://localhost:44370/api/Service/GetCategories

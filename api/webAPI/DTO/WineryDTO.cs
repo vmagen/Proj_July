@@ -25,6 +25,7 @@ namespace webAPI.DTO
         public string userphone { get; set; }
         public string statusType { get; set; }
         public string picture { get; set; }
+        public int areaId { get; set; }
 
     }
 }

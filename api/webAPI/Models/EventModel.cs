@@ -10,7 +10,6 @@ namespace webAPI.Models
 {
     public class EventModel
     {
-
         public static List<EventDTO> GetEvents(ArvinoDbContext db)
         {
             return db.RV_Event.Include(x => x.RV_EventCategory)
@@ -47,7 +46,8 @@ namespace webAPI.Models
 
         public static List<EventDTO> GetEventsByWinery(int wineryId, ArvinoDbContext db)
         {
-            return db.RV_Event.Where(i => i.wineryId == wineryId)
+            DateTime start = DateTime.Today;
+            return db.RV_Event.Where(i => i.wineryId == wineryId && i.eventDate >= start.Date)
                 .Include(x => x.RV_EventCategory)
                 .Select(e => new EventDTO()
                 {
@@ -65,21 +65,6 @@ namespace webAPI.Models
                     categoryName = db.RV_EventCategory.FirstOrDefault(c => c.categoryId == e.categoryId).categoryName
                 }).ToList();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public static List<EventDTO> GetEventByDate(int wineryId, int type, ArvinoDbContext db)
         {

@@ -50,11 +50,12 @@ namespace webAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("api/WineComment/GetWineComment")]
         public IHttpActionResult GetWineComment(int Id)
         {
             try
             {
-                return Ok(WineModel.GetAllWineComments(Id, db));
+                return Ok(WineModel.GetAllWineryWineComments(Id, db));
             }
             catch (Exception ex)
             {

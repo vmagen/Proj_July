@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\vmage\OneDrive\Ruppin\שנה ג\סמסטר ב\Proj_July\api\DATA\EF\ArvinoModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\ronny\OneDrive\שולחן העבודה\Proj_July\api\DATA\EF\ArvinoModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

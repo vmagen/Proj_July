@@ -85,16 +85,6 @@ namespace webAPI.Controllers
             }
         }
 
-
-
-
-
-
-
-
-
-
-        /// <summary>
         /// https://localhost:44370/api/Rate/GetTopWine?Id=1
         /// </summary>
         /// <returns></returns>
@@ -129,9 +119,6 @@ namespace webAPI.Controllers
                 return Content(HttpStatusCode.BadRequest, ex);
             }
         }
-
-
-
 
     }
 }

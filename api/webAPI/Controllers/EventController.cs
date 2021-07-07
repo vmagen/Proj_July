@@ -8,6 +8,7 @@ using System.Web.Http.Cors;
 using DATA.EF;
 using webAPI.Models;
 using webAPI.DTO;
+using System.Data.Entity.Validation;
 
 namespace webAPI.Controllers
 {
@@ -17,43 +18,11 @@ namespace webAPI.Controllers
         public static ArvinoDbContext db = new ArvinoDbContext();
 
         /// <summary>
-        /// https://localhost:44370/api/Event/PostEvent
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("api/Event/PostEvent")]
-        public IHttpActionResult PostEvent([FromBody] RV_Event value)
-        {
-            try
-            {
-                RV_Event newEvent = new RV_Event()
-                {
-                    eventName = value.eventName,
-                    content = value.content,
-                    price = value.price,
-                    participantsAmount = value.participantsAmount,
-                    eventDate = value.eventDate,
-                    startTime = value.startTime,
-                    eventImgPath = value.eventImgPath,
-                    categoryId = value.categoryId,
-                    wineryId = value.wineryId
-                };
-                db.RV_Event.Add(newEvent);
-                db.SaveChanges();
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return Content(HttpStatusCode.BadRequest, ex);
-            }
-        }
-
-        /// <summary>
         /// https://localhost:44370/api/Event/GetWineryEvents?id=1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("api/Event/GetWineryEvents")]
         public IHttpActionResult GetWineryEvents(int id)
         {
             try
@@ -89,6 +58,7 @@ namespace webAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
+        [Route("api/Event/DeleteEvent")]
         public IHttpActionResult DeleteEvent(int id)
         {
             try
@@ -109,21 +79,12 @@ namespace webAPI.Controllers
             }
         }
 
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// https://localhost:44370/api/Event/GetEventByDate?id=1&type=1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("api/Event/GetEventByDate")]
         public IHttpActionResult GetEventByDate(int id, int type)
         {
             try
@@ -148,6 +109,7 @@ namespace webAPI.Controllers
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPut]
+        [Route("api/Event/PutEvent")]
         public IHttpActionResult PutEvent(int id, [FromBody] RV_Event value)
         {
             try
@@ -173,6 +135,51 @@ namespace webAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// https://localhost:44370/api/Event/PostEvent
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("api/Event/PostEvent")]
+        public IHttpActionResult PostEvent([FromBody] RV_Event value)
+        {
+            try
+            {
+                RV_Event newEvent = new RV_Event()
+                {
+                    eventName = value.eventName,
+                    content = value.content,
+                    price = value.price,
+                    participantsAmount = value.participantsAmount,
+                    eventDate = value.eventDate,
+                    startTime = value.startTime,
+                    eventImgPath = value.eventImgPath,
+                    categoryId = value.categoryId,
+                    wineryId = value.wineryId
+                };
+                db.RV_Event.Add(newEvent);
+                db.SaveChanges();
+                return Ok();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                string errors = "";
+                foreach (DbEntityValidationResult vr in ex.EntityValidationErrors)
+                {
+                    foreach (DbValidationError er in vr.ValidationErrors)
+                    {
+                        errors += $"PropertyName - {er.PropertyName }, Error {er.ErrorMessage} <br/>";
+                    }
+                }
+                return Content(HttpStatusCode.BadRequest, errors);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
             }
         }
     }

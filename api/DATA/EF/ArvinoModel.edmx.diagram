@@ -84,6 +84,9 @@
         <EntityTypeShape EntityType="ArvinoModel.RV_WineComment" Width="1.5" PointX="17" PointY="4.75" />
         <AssociationConnector Association="ArvinoModel.FK_RV_WineComment_RV_User" />
         <AssociationConnector Association="ArvinoModel.FK_RV_WineComment_RV_Wine" />
+        <EntityTypeShape EntityType="ArvinoModel.RV_ChatWineryUser" Width="1.5" PointX="3.5" PointY="0.5" />
+        <AssociationConnector Association="ArvinoModel.FK_RV_ChatWineryUser_RV_User" />
+        <AssociationConnector Association="ArvinoModel.FK_RV_ChatWineryUser_RV_Winery" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
