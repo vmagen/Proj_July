@@ -54,7 +54,7 @@ namespace webAPI.Controllers
         {
             try
             {
-                return Ok(WineModel.GetAllWineComments(Id, db));
+                return Ok(WineModel.GetAllWineryWineComments(Id, db));
             }
             catch (Exception ex)
             {

@@ -10,7 +10,6 @@ namespace webAPI.Models
 {
     public class EventModel
     {
-
         public static List<EventDTO> GetEvents(ArvinoDbContext db)
         {
             return db.RV_Event.Include(x => x.RV_EventCategory)

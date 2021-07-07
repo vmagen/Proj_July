@@ -1,9 +1,12 @@
-﻿using System;
+﻿using DATA.EF;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
-using DATA.EF;
-using webAPI.DTO;
 using System.Web.Http.Cors;
+using webAPI.DTO;
 using webAPI.Models;
 
 namespace webAPI.Controllers
@@ -11,7 +14,6 @@ namespace webAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class EventCategoryController : ApiController
     {
-
         public static ArvinoDbContext db = new ArvinoDbContext();
 
         /// <summary>
@@ -24,7 +26,6 @@ namespace webAPI.Controllers
         {
             try
             {
-                //ruiiii
                 return Ok(EventCategoryModel.GetAllCategories(db));
             }
             catch (Exception ex)
@@ -50,7 +51,7 @@ namespace webAPI.Controllers
                 }
                 else
                 {
-                    return Content(HttpStatusCode.BadRequest,  $"{name} לא נמצאה קטגוריה בשם");
+                    return Content(HttpStatusCode.BadRequest, $"{name} לא נמצאה קטגוריה בשם");
                 }
             }
             catch (Exception ex)

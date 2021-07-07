@@ -10,7 +10,6 @@ namespace webAPI.Models
 {
     public class EventCategoryModel
     {
-
         public static RV_EventCategory GetCategory(int id, ArvinoDbContext db)
         {
             return db.RV_EventCategory.SingleOrDefault(x => x.categoryId == id);

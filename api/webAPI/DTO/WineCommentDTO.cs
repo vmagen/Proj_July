@@ -16,5 +16,6 @@ namespace webAPI.DTO
         public string UserPitcure { get; set; }
         public string userName { get; set; }
         public string wineImgPath { get; set; }
+        public int wineryId { get; set; }
     }
 }
