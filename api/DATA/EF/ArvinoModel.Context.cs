@@ -76,5 +76,6 @@ namespace DATA.EF
         public virtual DbSet<File_in_Email> File_in_Email { get; set; }
         public virtual DbSet<RV_WineryCommand> RV_WineryCommand { get; set; }
         public virtual DbSet<RV_WineComment> RV_WineComment { get; set; }
+        public virtual DbSet<RV_ChatWineryUser> RV_ChatWineryUser { get; set; }
     }
 }

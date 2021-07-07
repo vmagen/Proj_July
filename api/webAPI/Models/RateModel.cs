@@ -105,7 +105,6 @@ namespace webAPI.Models
             }
         }
 
-
         public static List<RateDTO> GetWineryInfoRates(int wineryId, ArvinoDbContext db)
         {
             try

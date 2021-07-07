@@ -55,6 +55,7 @@ namespace webAPI.Controllers
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPut]
+        [Route("api/User/PutUser")]
         public IHttpActionResult PutUser(string email, [FromBody] RV_User value)
         {
             try
@@ -78,7 +79,6 @@ namespace webAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
 
         /// <summary>
         /// https://localhost:44370/api/User/getProximity?email=vmagen@gmail.com
@@ -137,7 +137,6 @@ namespace webAPI.Controllers
             }
         }
 
-
         /// <summary>
         /// https://localhost:44370/api/User/getProximity?email=vmagen@gmail.com
         /// </summary>
@@ -170,28 +169,13 @@ namespace webAPI.Controllers
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// https://localhost:44370/api/User/PostUser
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("api/User/PostUser")]
         public IHttpActionResult PostUser([FromBody] RV_User value)
         {
             DateTime d = DateTime.Now;

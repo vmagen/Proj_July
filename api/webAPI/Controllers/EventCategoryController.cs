@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using DATA.EF;
-using webAPI.Models;
 using webAPI.DTO;
 using System.Web.Http.Cors;
-using System.Data.Entity.Validation;
+using webAPI.Models;
 
 namespace webAPI.Controllers
 {
@@ -23,6 +19,7 @@ namespace webAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("api/EventCategory/GetAllEventsCategories")]
         public IHttpActionResult GetAllEventsCategories()
         {
             try
@@ -37,23 +34,54 @@ namespace webAPI.Controllers
         }
 
         /// <summary>
+        /// https://localhost:44370/api/EventCategory/GetCategoryId
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/EventCategory/GetCategoryId")]
+        public IHttpActionResult GetCategoryId(string name)
+        {
+            try
+            {
+                RV_EventCategory e = EventCategoryModel.GetCategoryId(name, db);
+                if (e != null)
+                {
+                    return Ok(e);
+                }
+                else
+                {
+                    return Content(HttpStatusCode.BadRequest,  $"{name} לא נמצאה קטגוריה בשם");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+        /// <summary>
         /// https://localhost:44370/api/EventCategory/PostEventCategoey
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("api/EventCategory/PostEventCategoey")]
         public IHttpActionResult PostEventCategoey([FromBody] EventCategoryDTO value)
         {
             try
             {
-                RV_EventCategory eventCategory = new RV_EventCategory()
+                if (EventCategoryModel.GetCategoryId(value.categoryName, db) == null)
                 {
-                    categoryName = value.categoryName
+                    RV_EventCategory eventCategory = new RV_EventCategory()
+                    {
+                        categoryName = value.categoryName
+                    };
+                    db.RV_EventCategory.Add(eventCategory);
+                    db.SaveChanges();
+                    return Ok();
+                }
+                return Content(HttpStatusCode.BadRequest, "קטגוריה כבר קיימת");
 
-                };
-                db.RV_EventCategory.Add(eventCategory);
-                db.SaveChanges();
-                return Ok();
             }
             catch (Exception ex)
             {

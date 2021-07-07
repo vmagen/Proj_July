@@ -109,6 +109,16 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
           <Property Name="chatRoomId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="title" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="RV_ChatWineryUser">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="wineryId" Type="int" Nullable="false" />
+          <Property Name="userEmail" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="text" Type="nvarchar(max)" />
+          <Property Name="dateTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="RV_Competition">
           <Key>
             <PropertyRef Name="competitionId" />
@@ -157,6 +167,7 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
           <Property Name="ImgPath" Type="varchar(max)" Nullable="false" />
           <Property Name="groupDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="creatorEmail" Type="varchar" MaxLength="50" />
+          <Property Name="creationDate" Type="datetime" />
         </EntityType>
         <EntityType Name="RV_GroupMessages">
           <Key>
@@ -653,6 +664,30 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RV_ChatWineryUser_RV_User">
+          <End Role="RV_User" Type="Self.RV_User" Multiplicity="1" />
+          <End Role="RV_ChatWineryUser" Type="Self.RV_ChatWineryUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RV_User">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="RV_ChatWineryUser">
+              <PropertyRef Name="userEmail" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RV_ChatWineryUser_RV_Winery">
+          <End Role="RV_Winery" Type="Self.RV_Winery" Multiplicity="1" />
+          <End Role="RV_ChatWineryUser" Type="Self.RV_ChatWineryUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RV_Winery">
+              <PropertyRef Name="wineryId" />
+            </Principal>
+            <Dependent Role="RV_ChatWineryUser">
+              <PropertyRef Name="wineryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RV_GroupMessages_RV_Group">
           <End Role="RV_Group" Type="Self.RV_Group" Multiplicity="1" />
           <End Role="RV_GroupMessages" Type="Self.RV_GroupMessages" Multiplicity="*" />
@@ -868,6 +903,7 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
           <EntitySet Name="RV_Answers" EntityType="Self.RV_Answers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RV_AreaCategory" EntityType="Self.RV_AreaCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RV_ChatRoom" EntityType="Self.RV_ChatRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RV_ChatWineryUser" EntityType="Self.RV_ChatWineryUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RV_Competition" EntityType="Self.RV_Competition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RV_EntityTypes" EntityType="Self.RV_EntityTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RV_Event" EntityType="Self.RV_Event" Schema="dbo" store:Type="Tables" />
@@ -961,6 +997,14 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
           <AssociationSet Name="FK__RV_Wine__categor__3587F3E0" Association="Self.FK__RV_Wine__categor__3587F3E0">
             <End Role="RV_WineCategory" EntitySet="RV_WineCategory" />
             <End Role="RV_Wine" EntitySet="RV_Wine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RV_ChatWineryUser_RV_User" Association="Self.FK_RV_ChatWineryUser_RV_User">
+            <End Role="RV_User" EntitySet="RV_User" />
+            <End Role="RV_ChatWineryUser" EntitySet="RV_ChatWineryUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RV_ChatWineryUser_RV_Winery" Association="Self.FK_RV_ChatWineryUser_RV_Winery">
+            <End Role="RV_Winery" EntitySet="RV_Winery" />
+            <End Role="RV_ChatWineryUser" EntitySet="RV_ChatWineryUser" />
           </AssociationSet>
           <AssociationSet Name="FK_RV_GroupMessages_RV_Group" Association="Self.FK_RV_GroupMessages_RV_Group">
             <End Role="RV_Group" EntitySet="RV_Group" />
@@ -1202,6 +1246,15 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
             <End Role="RV_Wine" EntitySet="RV_Wine" />
             <End Role="RV_WineComment" EntitySet="RV_WineComment" />
           </AssociationSet>
+          <EntitySet Name="RV_ChatWineryUser" EntityType="ArvinoModel.RV_ChatWineryUser" />
+          <AssociationSet Name="FK_RV_ChatWineryUser_RV_User" Association="ArvinoModel.FK_RV_ChatWineryUser_RV_User">
+            <End Role="RV_User" EntitySet="RV_User" />
+            <End Role="RV_ChatWineryUser" EntitySet="RV_ChatWineryUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RV_ChatWineryUser_RV_Winery" Association="ArvinoModel.FK_RV_ChatWineryUser_RV_Winery">
+            <End Role="RV_Winery" EntitySet="RV_Winery" />
+            <End Role="RV_ChatWineryUser" EntitySet="RV_ChatWineryUser" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="RV_Answers">
           <Key>
@@ -1278,6 +1331,7 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
           <NavigationProperty Name="RV_MessageInGroup" Relationship="ArvinoModel.FK__RV_Messag__group__7849DB76" FromRole="RV_Group" ToRole="RV_MessageInGroup" />
           <NavigationProperty Name="RV_UserJoinGroup" Relationship="ArvinoModel.FK__RV_UserJo__group__719CDDE7" FromRole="RV_Group" ToRole="RV_UserJoinGroup" />
           <NavigationProperty Name="RV_GroupMessages" Relationship="ArvinoModel.FK_RV_GroupMessages_RV_Group" FromRole="RV_Group" ToRole="RV_GroupMessages" />
+          <Property Name="creationDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="RV_GroupMessages">
           <Key>
@@ -1416,6 +1470,7 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
           <Property Name="token" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="isPremium" Type="Boolean" />
           <NavigationProperty Name="RV_WineComment" Relationship="ArvinoModel.FK_RV_WineComment_RV_User" FromRole="RV_User" ToRole="RV_WineComment" />
+          <NavigationProperty Name="RV_ChatWineryUser" Relationship="ArvinoModel.FK_RV_ChatWineryUser_RV_User" FromRole="RV_User" ToRole="RV_ChatWineryUser" />
         </EntityType>
         <EntityType Name="RV_UserJoinChatRoom">
           <Key>
@@ -1508,6 +1563,7 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
           <NavigationProperty Name="RV_AreaCategory" Relationship="ArvinoModel.FK_RV_Winery_RV_AreaCategory" FromRole="RV_Winery" ToRole="RV_AreaCategory" />
           <NavigationProperty Name="RV_Service" Relationship="ArvinoModel.FK_RV_Service_RV_Winery" FromRole="RV_Winery" ToRole="RV_Service" />
           <NavigationProperty Name="RV_WineryCommand" Relationship="ArvinoModel.FK_RV_WineryCommand_RV_Winery" FromRole="RV_Winery" ToRole="RV_WineryCommand" />
+          <NavigationProperty Name="RV_ChatWineryUser" Relationship="ArvinoModel.FK_RV_ChatWineryUser_RV_Winery" FromRole="RV_Winery" ToRole="RV_ChatWineryUser" />
         </EntityType>
         <EntityType Name="RV_WineryImage">
           <Key>
@@ -2111,6 +2167,42 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="RV_ChatWineryUser">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="wineryId" Type="Int32" Nullable="false" />
+          <Property Name="userEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="RV_User" Relationship="ArvinoModel.FK_RV_ChatWineryUser_RV_User" FromRole="RV_ChatWineryUser" ToRole="RV_User" />
+          <NavigationProperty Name="RV_Winery" Relationship="ArvinoModel.FK_RV_ChatWineryUser_RV_Winery" FromRole="RV_ChatWineryUser" ToRole="RV_Winery" />
+        </EntityType>
+        <Association Name="FK_RV_ChatWineryUser_RV_User">
+          <End Type="ArvinoModel.RV_User" Role="RV_User" Multiplicity="1" />
+          <End Type="ArvinoModel.RV_ChatWineryUser" Role="RV_ChatWineryUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RV_User">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="RV_ChatWineryUser">
+              <PropertyRef Name="userEmail" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RV_ChatWineryUser_RV_Winery">
+          <End Type="ArvinoModel.RV_Winery" Role="RV_Winery" Multiplicity="1" />
+          <End Type="ArvinoModel.RV_ChatWineryUser" Role="RV_ChatWineryUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RV_Winery">
+              <PropertyRef Name="wineryId" />
+            </Principal>
+            <Dependent Role="RV_ChatWineryUser">
+              <PropertyRef Name="wineryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2180,6 +2272,7 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
           <EntitySetMapping Name="RV_Group">
             <EntityTypeMapping TypeName="ArvinoModel.RV_Group">
               <MappingFragment StoreEntitySet="RV_Group">
+                <ScalarProperty Name="creationDate" ColumnName="creationDate" />
                 <ScalarProperty Name="creatorEmail" ColumnName="creatorEmail" />
                 <ScalarProperty Name="groupDescription" ColumnName="groupDescription" />
                 <ScalarProperty Name="ImgPath" ColumnName="ImgPath" />
@@ -2657,6 +2750,17 @@ warning 6002: The table/view 'bgroup15_prod.dbo.File_in_Email' does not have a p
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RV_ChatWineryUser">
+            <EntityTypeMapping TypeName="ArvinoModel.RV_ChatWineryUser">
+              <MappingFragment StoreEntitySet="RV_ChatWineryUser">
+                <ScalarProperty Name="dateTime" ColumnName="dateTime" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="wineryId" ColumnName="wineryId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

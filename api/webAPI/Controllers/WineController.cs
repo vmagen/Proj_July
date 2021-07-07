@@ -114,20 +114,6 @@ namespace webAPI.Controllers
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// https://localhost:44370/api/Wine/GetWineryWines?id=1
         /// </summary>
@@ -193,6 +179,7 @@ namespace webAPI.Controllers
         }
 
         /// <summary>
+        /// להתיחס לליקיםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםםם
         /// https://localhost:44370/api/Wine/DeleteWine?id=1
         /// </summary>
         /// <returns></returns>
