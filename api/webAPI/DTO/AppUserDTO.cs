@@ -12,7 +12,11 @@ namespace webAPI.DTO
         public string Name { get; set; }
         public string picture { get; set; }
         public bool isOlder { get; set; }
-        public int typeId { get; set; }
+        public int? typeId { get; set; }
         public double rank { get; set; }
+        public bool? isPremium { get; set; }
+        public List<WineDTO> wineList {get;set;}
+        public List<WineryDTO> wineryList { get; set; }
+
     }
 }

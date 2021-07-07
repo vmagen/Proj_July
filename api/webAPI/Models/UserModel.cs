@@ -137,5 +137,82 @@ namespace webAPI.Models
                 return -1;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="prefid">1, 2, 5</param>
+        /// <returns></returns>
+        public static List<WineDTO> GetWinesLikedByUser( string email)
+        {
+            try
+            {
+                List<WineDTO> wineList = new List<WineDTO>();
+                using (var db = new ArvinoDbContext())
+                {
+
+
+                    RV_User single = db.RV_User.SingleOrDefault(i => i.email == email);
+                    if (email != null)
+                    {
+                        //get disinct wine form each user ( liked, Rated over 3 or know)
+                        var test1 = db.RV_UserPrefrences
+                            .Where(i => i.email == email && (i.PrefrenceID == 1 || i.PrefrenceID == 2 || i.PrefrenceID == 5));
+
+
+                        var distinctWineIds = test1.GroupBy(c => c.FreeText, (key, c) => c.FirstOrDefault());
+                        foreach (var item in distinctWineIds)
+                        {
+                            var wine = new WineDTO();
+                            wine.wineId = Convert.ToInt32(item.FreeText);
+                            wineList.Add(WineModel.getWIneByID(wine.wineId, db));
+
+                        }
+
+                        return wineList;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+        public static AppUserDTO GetAppUser(string email, ArvinoDbContext db)
+        {
+            try
+            {
+                RV_User single = db.RV_User.SingleOrDefault(x => x.email == email);
+
+                if (single != null)
+                {
+                    return new AppUserDTO()
+                    {
+                        Name= single.Name,
+                        email=single.email,
+                        picture=single.picture,
+                        password = single.password,
+                        isPremium =single.isPremium,
+                        isOlder=true,
+                        typeId = single.typeId
+                    };
+                }
+                else
+                    return null;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception ("Error getting user", ex.InnerException);
+            }
+        }
+
     }
 }

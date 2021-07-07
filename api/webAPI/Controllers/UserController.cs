@@ -107,7 +107,8 @@ namespace webAPI.Controllers
                                 email = user.email,
                                 Name = user.Name,
                                 picture = user.picture,
-                                rank = item.Value
+                                rank = item.Value,
+                                wineList=UserModel.GetWinesLikedByUser(user.email)
                             });
                         }
                     }
@@ -274,6 +275,38 @@ namespace webAPI.Controllers
                     return null;
                 }
                 return Ok(1);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// https://localhost:44370/api/AppUser/email?email=asaf@gmail.com
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/AppUser/email")]
+        public IHttpActionResult GetAppUserByEmail(string email)
+        {
+            try
+            {
+                return Ok(UserModel.GetAppUser(email, db));
+            }
+            catch (DbEntityValidationException ex)
+            {
+                string error = "";
+                foreach (DbEntityValidationResult vr in ex.EntityValidationErrors)
+                {
+                    foreach (DbValidationError er in vr.ValidationErrors)
+                    {
+                        error += er.ErrorMessage + "\n";
+                    }
+                }
+                return Content(HttpStatusCode.BadRequest, error);
             }
             catch (Exception ex)
             {

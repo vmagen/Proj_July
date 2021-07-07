@@ -35,36 +35,20 @@ namespace webAPI.Models
 
         public static List<WineDTO> GetAllWines(ArvinoDbContext db)
         {
-            return db.RV_Wine.Select(w => new WineDTO()
+            List<WineDTO> wineList = new List<WineDTO>();
+            foreach (var item in db.RV_Wine)
             {
-                wineId = w.wineId,
-                wineName = w.wineName,
-                wineImgPath = w.wineImgPath,
-                content = w.content,
-                price = w.price,
-                wineLabelPath = w.wineLabelPath,
-                categoryId = w.categoryId ?? 0,
-                wineryId = w.wineryId,
-                wineryName = db.RV_Winery.FirstOrDefault(i => i.wineryId == w.wineryId).wineryName,
-                wineryImage = db.RV_Winery.FirstOrDefault(i => i.wineryId == w.wineryId).IconImgPath,
-                areaCategoryName = db.RV_AreaCategory
-                        .FirstOrDefault(i => i.areaId == db.RV_Winery
-                            .FirstOrDefault(r => r.wineryId == w.wineryId).areaId)
-                                .areaName,
-                rate =db.RV_WineComment
-                            .Where(i => i.wineId == w.wineId)
-                                .Select(i => i.rate)
-                                    .Average(),
-                likes = db.RV_LikesUsers
-                                            .Where(i => i.entityType == 2 && i.entityId == w.wineId)
-                                              .Select(dt => new LikesDTO()
-                                              {
-                                                  likeId = dt.ID,
-                                                  userName = db.RV_User.FirstOrDefault(x => x.email == dt.email).Name,
-                                                  userImage = db.RV_User.FirstOrDefault(x => x.email == dt.email).picture
+                try
+                {
+                    wineList.Add(getWIneByID(item.wineId, db));
+                }
+                catch
+                {
+                    break;
+                }
+            }
 
-                                              }).ToList(),
-            }).ToList();
+            return wineList;
         }
 
         public static List<WineCommentDTO> GetAllWineComments(int wineId, ArvinoDbContext db)
@@ -123,13 +107,35 @@ namespace webAPI.Models
             try
             {
                 return db.RV_Wine.Where(i => i.wineId == wineId)
-                            .Select(i => new WineDTO()
+                            .Select(w => new WineDTO()
                             {
-                                wineId = i.wineId,
-                                wineImgPath = i.wineImgPath,
-                                wineName = i.wineName,
-                                wineryName = db.RV_Winery.FirstOrDefault(w => w.wineryId == i.wineryId).wineryName,
-                                wineryImage = db.RV_Winery.FirstOrDefault(w => w.wineryId == i.wineryId).IconImgPath
+                                wineId = w.wineId,
+                                wineName = w.wineName,
+                                wineImgPath = w.wineImgPath,
+                                content = w.content,
+                                price = w.price,
+                                wineLabelPath = w.wineLabelPath,
+                                categoryId = w.categoryId ?? 0,
+                                wineryId = w.wineryId,
+                                wineryName = db.RV_Winery.FirstOrDefault(i => i.wineryId == w.wineryId).wineryName,
+                                wineryImage = db.RV_Winery.FirstOrDefault(i => i.wineryId == w.wineryId).IconImgPath,
+                                areaCategoryName = db.RV_AreaCategory
+                                            .FirstOrDefault(i => i.areaId == db.RV_Winery
+                                                .FirstOrDefault(r => r.wineryId == w.wineryId).areaId)
+                                                    .areaName,
+                                rate = db.RV_WineComment
+                                        .Where(i => i.wineId == w.wineId)
+                                                .Select(i => i.rate)
+                                                    .Average(),
+                                likes = db.RV_LikesUsers
+                                            .Where(i => i.entityType == 2 && i.entityId == w.wineId)
+                                              .Select(dt => new LikesDTO()
+                                              {
+                                                  likeId = dt.ID,
+                                                  userName = db.RV_User.FirstOrDefault(x => x.email == dt.email).Name,
+                                                  userImage = db.RV_User.FirstOrDefault(x => x.email == dt.email).picture
+
+                                              }).ToList(),
                             }).First();
             }
             catch (Exception ex)

@@ -45,17 +45,21 @@ namespace webAPI.Controllers
         {
             try
             {
-                RV_WineComment wineComment = new RV_WineComment()
+                
+                using (var myDb = new ArvinoDbContext())
                 {
-                   email=value.email,
-                   text=value.text,
-                   date=DateTime.Now,
-                   rate=value.rate,
-                   wineId=value.wineId
-                };
-                db.RV_WineComment.Add(wineComment);
-                db.SaveChanges();
-                return Ok();
+                    RV_WineComment wineComment = new RV_WineComment()
+                    {
+                        email = value.email,
+                        text = value.text,
+                        date = DateTime.Now,
+                        rate = value.rate,
+                        wineId = value.wineId
+                    };
+                    myDb.RV_WineComment.Add(wineComment);
+                    myDb.SaveChanges();
+                    return Ok();
+                }
             }
             catch (Exception ex)
             {

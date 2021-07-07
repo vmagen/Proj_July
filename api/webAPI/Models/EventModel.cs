@@ -14,6 +14,7 @@ namespace webAPI.Models
         public static List<EventDTO> GetEvents(ArvinoDbContext db)
         {
             return db.RV_Event.Include(x => x.RV_EventCategory)
+                            .OrderByDescending(x=>x.eventDate)
                                 .Select(e => new EventDTO()
                                 {
                                     eventId = e.eventId,
